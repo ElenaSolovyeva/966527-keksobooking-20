@@ -215,7 +215,7 @@ var createAdCard = function (ad) {
   var newAdCard = cardTemplate.cloneNode(true).content;
 
   var popupTitle = newAdCard.querySelector('.popup__title');
-  var popupÀddress = newAdCard.querySelector('.popup__text--address');
+  var popupAddress = newAdCard.querySelector('.popup__text--address');
   var popupPrice = newAdCard.querySelector('.popup__text--price');
   var popupType = newAdCard.querySelector('.popup__type');
   var popupCapacity = newAdCard.querySelector('.popup__text--capacity');
@@ -234,14 +234,13 @@ var createAdCard = function (ad) {
   }
 
   if (!ad.offer.address.value) {
-    popupÀddress.textContent = ad.offer.address;
+    popupAddress.textContent = ad.offer.address;
   } else {
-    popupÀddress.remove();
+    popupAddress.remove();
   }
 
   if (!ad.offer.prise.value) {
-    var adPrice = ad.offer.prise;
-    popupPrice.textContent = adPrice;
+    popupPrice.textContent = ad.offer.prise;
     popupPrice.insertAdjacentHTML('beforeend', ' &#x20bd;<span>/ночь</span>');
   } else {
     popupPrice.remove();
@@ -254,8 +253,7 @@ var createAdCard = function (ad) {
   }
 
   if (!ad.offer.rooms.value) {
-    var roomsText = ad.offer.rooms + ' ' + formatRoomsText(ad.offer.rooms);
-    popupCapacity.textContent = roomsText;
+    popupCapacity.textContent = ad.offer.rooms + ' ' + formatRoomsText(ad.offer.rooms);
 
     if (!ad.offer.guests.value) {
       var guestsText = ' для ' + ad.offer.guests + ' ' + formatGuestsText(ad.offer.guests);
