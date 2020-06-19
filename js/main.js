@@ -130,11 +130,9 @@ var getAdData = function (index) {
 };
 
 var getAdsData = function () {
-  // var adList = [];
   for (var i = 0; i < AD_QUANTITY; i += 1) {
     adList[i] = getAdData(i);
   }
-  // return adList;
 };
 
 getAdsData(); // заполняет adList (список объявлений)
@@ -143,7 +141,6 @@ getAdsData(); // заполняет adList (список объявлений)
 
 var formatRoomsText = function (roomsNumber) {
   var stringRooms;
-
   if (roomsNumber === 1) {
     stringRooms = 'комната';
   } else if (roomsNumber < 5) {
@@ -156,7 +153,6 @@ var formatRoomsText = function (roomsNumber) {
 
 var formatGuestsText = function (guestsNumber) {
   var stringGuests;
-
   if (guestsNumber === 1) {
     stringGuests = 'гостя';
   } else {
@@ -169,7 +165,6 @@ var renderFeaturesList = function (adFeatures, domList) {
   var adFeaturesCount = adFeatures.length;
   var templateFeatures = domList.querySelectorAll('.popup__feature');
   var templateFeaturesCount = templateFeatures.length;
-
   if (adFeaturesCount > 0) {
     for (var i = 0; i < templateFeaturesCount; i += 1) {
       for (var j = 0; j < adFeaturesCount; j += 1) {
@@ -193,7 +188,6 @@ var renderFeaturesList = function (adFeatures, domList) {
 var renderPhotos = function (adPhotos, img, divPhotos) {
   if (!adPhotos.value) {
     var photosCount = adPhotos.length;
-
     if (photosCount === 1) {
       img.setAttribute('src', adPhotos);
     } else if (photosCount > 1) {
@@ -209,7 +203,6 @@ var renderPhotos = function (adPhotos, img, divPhotos) {
 
 var createAdCard = function (ad) {
   var newAdCard = cardTemplate.cloneNode(true).content;
-
   var popupTitle = newAdCard.querySelector('.popup__title');
   var popupAddress = newAdCard.querySelector('.popup__text--address');
   var popupPrice = newAdCard.querySelector('.popup__text--price');
@@ -222,7 +215,6 @@ var createAdCard = function (ad) {
   var popupPhoto = popupPhotos.querySelector('.popup__photo');
   var avatarImg = newAdCard.querySelector('.popup__avatar');
 
-  // console.log(adList);
   // Значения, которые интуитивно «пустые», вроде 0, пустой строки, null, undefined и NaN, становятся false.
   if (!ad.offer.title.value) {
     popupTitle.textContent = ad.offer.title;
@@ -244,7 +236,7 @@ var createAdCard = function (ad) {
   }
 
   if (!ad.offer.type.value) {
-    popupType.textContent = TYPES[ad.offer.type];
+    popupType.textContent = ad.offer.type;
   } else {
     popupType.remove();
   }
@@ -280,7 +272,7 @@ var createAdCard = function (ad) {
 
   popupFeaturesList.textcontent = '';
   renderFeaturesList(ad.offer.features, popupFeaturesList);
-  if (!ad.offer.description) {
+  if (!ad.offer.description.value) {
     popupDescription.textContent = ad.offer.description;
   } else {
     popupDescription.remove();
