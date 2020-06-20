@@ -27,6 +27,11 @@ var Y_MAX = 630;
 var BLOCK_WIDTH = 1200;
 var X_MAX = X_MIN + BLOCK_WIDTH;
 
+var MIN_PRICE_BUNGALO = 0;
+var MIN_PRICE_FLAT = 1000;
+var MIN_PRICE_HOUSE = 5000;
+var MIN_PRICE_PALACE = 10000;
+
 var adList = Array.from(Array(AD_QUANTITY));
 
 var map = document.querySelector('.map');
@@ -470,16 +475,16 @@ var getMinPrice = function (type) {
   var minPrice;
   switch (type) {
     case 'bungalo':
-      minPrice = 0;
+      minPrice = MIN_PRICE_BUNGALO;
       break;
     case 'flat':
-      minPrice = 1000;
+      minPrice = MIN_PRICE_FLAT;
       break;
     case 'house':
-      minPrice = 5000;
+      minPrice = MIN_PRICE_HOUSE;
       break;
     case 'palace':
-      minPrice = 10000;
+      minPrice = MIN_PRICE_PALACE;
       break;
     default:
     // потом сделаю throw exception ('Для данного типа жилья минимальная цена не установлена');
