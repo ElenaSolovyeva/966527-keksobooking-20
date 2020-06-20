@@ -287,9 +287,17 @@ var renderCard = function (ad) {
   var firstCard = firstCardFragment.querySelector('.map__card');
   var elementBefore = map.querySelector('.map__filters-container');
   elementBefore.insertAdjacentElement('beforeBegin', firstCard);
-};
 
-// renderCard(adList[0]);
+  // Обработчик карточки объявления
+  var onCloseButtonClick = function (evt) {
+    if (evt.button === 0 || evt.key === 'Enter') {
+      map.querySelector('.map__card').remove();
+    }
+  };
+  var closeButton = map.querySelector('.popup__close');
+  closeButton.addEventListener('mousedown', onCloseButtonClick);
+  closeButton.addEventListener('keydown', onCloseButtonClick);
+};
 
 // ********* СОЗДАНИЕ И ОТРИСОВКА МЕТКИ ОБЪЯВЛЕНЯ *********
 
@@ -297,13 +305,14 @@ var renderCard = function (ad) {
 var onAdPinClick = function (evt) {
   if (evt.button === 0 || evt.key === 'Enter') {
     var pinIndex = usersPinList.indexOf(evt.target.parentNode, 0);
-    var previousCard = document.querySelector('.map__card');
+    var previousCard = map.querySelector('.map__card');
     if (previousCard) {
       previousCard.remove();
     }
     renderCard(adList[pinIndex]);
   }
 };
+
 // ********* Отрисовка метки *********
 
 var createAdPin = function (ad) {
