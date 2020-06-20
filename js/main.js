@@ -54,6 +54,7 @@ var adFormPrice = adForm.querySelector('#price');
 var adFormType = adForm.querySelector('#type');
 var timeIn = adForm.querySelector('#timein');
 var timeOut = adForm.querySelector('#timeout');
+var adFormAddress = adForm.querySelector('#address');
 
 var mapFiltersForm = document.querySelector('.map__filters');
 var mapFilterSelects = mapFiltersForm.querySelectorAll('select');
@@ -427,6 +428,7 @@ var onMainPinClick = function (evt) {
     for (var l = 0; l < mapFilterSelects.length; l += 1) {
       mapFilterSelects[l].removeAttribute('disabled');
     }
+    adFormAddress.setAttribute('readonly', true);
     setAddress();
     makeActive();
   }
@@ -518,7 +520,8 @@ var setPricePlaseholder = function () {
 };
 
 adFormType.addEventListener('change', setPricePlaseholder);
-// Валидация адреса
+
+// Валидация адреса - атрибут readonly установлен в коллбэке onMainPinClick
 
 // Синхронизация checkin - checkout
 var synchronizeTime = function (evt) {
