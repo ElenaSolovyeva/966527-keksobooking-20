@@ -9,6 +9,8 @@ var PRISES = [1000, 300, 1500, 2500, 750, 500, 900, 1200]; //  берите сл
 var TYPES = ['palace', 'flat', 'house', 'bungalo'];
 var ROOMS_MIN = 1;
 var ROOMS_MAX = 5;
+var LOWER_BOUND = 0;
+var UPPER_BOUND = 100;
 var GUESTS_MIN = 1;
 var GUESTS_MAX = 7;
 var CHECKINS = ['12:00', '13:00', '14:00'];
@@ -66,6 +68,8 @@ var mapFilterSelects = mapFiltersForm.querySelectorAll('select');
 var mapFilterInputs = mapFiltersForm.querySelectorAll('input');
 var invalidFields = [];
 var usersPinList = [];
+var adPin;
+var closeButton;
 
 var getRandomInteger = function (min, max) {
   var randomNumber = min + Math.random() * (max + 1 - min);
@@ -289,19 +293,19 @@ var createAdCard = function (ad) {
   return newAdCard;
 };
 
+// Обработчик карточки объявления
+var onCloseButtonClick = function (evt) {
+  if (evt.button === 0 || evt.key === 'Enter') {
+    map.querySelector('.map__card').remove();
+  }
+};
+
 var renderCard = function (ad) {
   var firstCardFragment = createAdCard(ad);
   var firstCard = firstCardFragment.querySelector('.map__card');
   var elementBefore = map.querySelector('.map__filters-container');
   elementBefore.insertAdjacentElement('beforeBegin', firstCard);
-
-  // Обработчик карточки объявления
-  var onCloseButtonClick = function (evt) {
-    if (evt.button === 0 || evt.key === 'Enter') {
-      map.querySelector('.map__card').remove();
-    }
-  };
-  var closeButton = map.querySelector('.popup__close');
+  closeButton = map.querySelector('.popup__close');
   closeButton.addEventListener('mousedown', onCloseButtonClick);
   closeButton.addEventListener('keydown', onCloseButtonClick);
 };
@@ -338,7 +342,7 @@ var createAdPin = function (ad) {
 var renderPins = function () {
   var fragment = document.createDocumentFragment();
   for (var i = 0; i < adList.length; i += 1) {
-    var adPin = createAdPin(adList[i]);
+    adPin = createAdPin(adList[i]);
     usersPinList.push(adPin);
     fragment.appendChild(adPin);
     adPin.addEventListener('mousedown', onAdPinClick);
@@ -397,6 +401,24 @@ var makePageInactive = function () {
   var invalidFieldsCount = invalidFields.length;
   invalidFields.splice(0, invalidFieldsCount); // обнуляет массив невалидных полей
   setAddress();
+  // удаляет обработчики при деактивации страницы
+  mainPin.removeEventListener('mousedown', onMainPinClick);
+  mainPin.removeEventListener('keydown', onMainPinClick);
+  if (usersPinList.length > 0) {
+    adPin.removeEventListener('mousedown', onAdPinClick);
+    adPin.removeEventListener('keydown', onAdPinClick);
+  }
+  if (closeButton) {
+    closeButton.removeEventListener('mousedown', onCloseButtonClick);
+    closeButton.removeEventListener('keydown', onCloseButtonClick);
+  }
+  adFormTitle.removeEventListener('blur', validateTitle);
+  adFormPrice.removeEventListener('blur', validatePrice);
+  adFormType.removeEventListener('change', setPricePlaseholder);
+  timeIn.removeEventListener('blur', synchronizeTime);
+  timeOut.removeEventListener('blur', synchronizeTime);
+  roomsNumberSelect.removeEventListener('change', validateRoomsAndCapacity);
+  capacitySelect.removeEventListener('change', validateRoomsAndCapacity);
 };
 
 makePageInactive();
@@ -405,37 +427,37 @@ var makeActive = function () {
   if (document.querySelectorAll('.map__pin').length <= 1) {
     renderPins();
   }
-  // !!! навесить обработчики на пины
 };
 
 // ********* ОБРАБОТЧИК ДЛЯ main--pin *********
 
 var onMainPinClick = function (evt) {
   if (evt.button === 0 || evt.key === 'Enter') {
-    if (map.classList.contains('map--faded')) {
+    if (map.classList.contains('map--faded')) { // если по пину кликают на уже активированной странице, класса 'map--faded' нет
       map.classList.remove('map--faded');
+      if (adForm.classList.contains('ad-form--disabled')) {
+        adForm.classList.remove('ad-form--disabled');
+      }
+      for (var i = 0; i < adFormInputs.length; i += 1) {
+        adFormInputs[i].removeAttribute('disabled');
+      }
+      for (var j = 0; j < adFormSelects.length; j += 1) {
+        adFormSelects[j].removeAttribute('disabled');
+      }
+      if (mapFiltersForm.classList.contains('.map__filters--disabled')) {
+        mapFiltersForm.classList.remove('map__filters--disabled');
+      }
+      for (var k = 0; k < mapFilterInputs.length; k += 1) {
+        mapFilterInputs[k].removeAttribute('disabled');
+      }
+      for (var l = 0; l < mapFilterSelects.length; l += 1) {
+        mapFilterSelects[l].removeAttribute('disabled');
+      }
+      adFormAddress.setAttribute('readonly', true);
+      adFormPrice.placeholder = 1000; // при активации формы по умолчанию указывается цена за квартиру
+      setAddress();
+      makeActive();
     }
-    if (adForm.classList.contains('ad-form--disabled')) {
-      adForm.classList.remove('ad-form--disabled');
-    }
-    for (var i = 0; i < adFormInputs.length; i += 1) {
-      adFormInputs[i].removeAttribute('disabled');
-    }
-    for (var j = 0; j < adFormSelects.length; j += 1) {
-      adFormSelects[j].removeAttribute('disabled');
-    }
-    if (mapFiltersForm.classList.contains('.map__filters--disabled')) {
-      mapFiltersForm.classList.remove('map__filters--disabled');
-    }
-    for (var k = 0; k < mapFilterInputs.length; k += 1) {
-      mapFilterInputs[k].removeAttribute('disabled');
-    }
-    for (var l = 0; l < mapFilterSelects.length; l += 1) {
-      mapFilterSelects[l].removeAttribute('disabled');
-    }
-    adFormAddress.setAttribute('readonly', true);
-    setAddress();
-    makeActive();
   }
 };
 
@@ -545,10 +567,10 @@ var getRoomsValidationMessage = function () {
   var rooms = parseInt(roomsNumberSelect.value, 10);
   var guests = parseInt(capacitySelect.value, 10);
   var message;
-  if (rooms === 100 && guests !== 0) {
+  if (rooms === UPPER_BOUND && guests !== LOWER_BOUND) {
     message = 'не для гостей';
     invalidFields.push(capacitySelect);
-  } else if (guests === 0 && rooms !== 100) {
+  } else if (guests === LOWER_BOUND && rooms !== UPPER_BOUND) {
     message = 'не для гостей только 100 комнат';
     invalidFields.push(roomsNumberSelect);
   } else if (rooms < guests) {
