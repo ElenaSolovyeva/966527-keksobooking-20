@@ -412,18 +412,12 @@ var makePageInactive = function () {
     closeButton.removeEventListener('mousedown', onCloseButtonClick);
     closeButton.removeEventListener('keydown', onCloseButtonClick);
   }
-  adFormTitle.removeEventListener('blur', validateTitle);
-  adFormPrice.removeEventListener('blur', validatePrice);
-  adFormType.removeEventListener('change', setPricePlaseholder);
-  timeIn.removeEventListener('blur', synchronizeTime);
-  timeOut.removeEventListener('blur', synchronizeTime);
-  roomsNumberSelect.removeEventListener('change', validateRoomsAndCapacity);
-  capacitySelect.removeEventListener('change', validateRoomsAndCapacity);
 };
 
 makePageInactive();
 
 var makeActive = function () {
+  adFormPrice.value = 1000;
   if (document.querySelectorAll('.map__pin').length <= 1) {
     renderPins();
   }
