@@ -28,7 +28,6 @@ window.map = (function () {
     closeButton.addEventListener('keydown', onCloseButtonClick);
   };
 
-
   var onAdPinClick = function (evt) {
     if (evt.button === 0 || evt.key === 'Enter') {
       var pinIndex = usersPinList.indexOf(evt.target.parentNode, 0);
@@ -36,14 +35,14 @@ window.map = (function () {
       if (previousCard) {
         previousCard.remove();
       }
-      window.card.renderCard(window.adData.adList[pinIndex]);
+      renderCard(window.adData.adList[pinIndex]);
     }
   };
 
   var renderPins = function () {
     var fragment = document.createDocumentFragment();
     for (var i = 0; i < window.adData.adList.length; i += 1) {
-      var adPin = window.pin.createAdPin(window.adDataadList[i]);
+      var adPin = window.pin.createAdPin(window.adData.adList[i]);
       usersPinList.push(adPin);
       fragment.appendChild(adPin);
       adPin.addEventListener('mousedown', onAdPinClick);
@@ -52,7 +51,10 @@ window.map = (function () {
     mapPins.appendChild(fragment);
   };
 
+
   return {
+    map: map,
+    usersPinList: usersPinList,
     renderCard: renderCard,
     renderPins: renderPins
   };

@@ -10,19 +10,17 @@ window.form = (function () {
   var MIN_PRICE_HOUSE = 5000;
   var MIN_PRICE_PALACE = 10000;
 
+  // to export:
   var adForm = document.querySelector('.ad-form');
   var adFormTypeSelect = adForm.querySelector('#type');
-
-  // to export:
   var adFormTitle = adForm.querySelector('#title');
   var adFormPrice = adForm.querySelector('#price');
   var adFormType = adForm.querySelector('#type');
   var timeIn = adForm.querySelector('#timein');
   var timeOut = adForm.querySelector('#timeout');
-
-
+  var roomsNumberSelect = adForm.querySelector('#room_number');
+  var capacitySelect = adForm.querySelector('#capacity');
   var invalidFields = [];
-
 
   // Валидация заголовка сообщения
   var getTitleValidationMessage = function () {
@@ -149,4 +147,15 @@ window.form = (function () {
   capacitySelect.addEventListener('change', validateRoomsAndCapacity);
 
 
+  return {
+    adForm: adForm,
+    adFormTitle: adFormTitle,
+    adFormPrice: adFormPrice,
+    adFormType: adFormType,
+    timeIn: timeIn,
+    timeOut: timeOut,
+    roomsNumberSelect: roomsNumberSelect,
+    capacitySelect: capacitySelect,
+    invalidFields: invalidFields
+  };
 })();
