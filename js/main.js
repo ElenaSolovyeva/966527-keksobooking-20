@@ -51,6 +51,7 @@ window.pageDeactivation.makePageInactive();
 //     window.pin.mainPin.addEventListener('keydown', onMainPinClick);
 //     return {mapFiltersForm: mapFiltersForm};
 
+
 // ДЕАКТИВАЦИЯ СТРАНИЦЫ:  pageDeactivation.js
 //      return { makePageInactive: makePageInactive };
 

@@ -10,8 +10,48 @@ window.pageActivation = (function () {
   var mapFilterSelects = mapFiltersForm.querySelectorAll('select');
   var mapFilterInputs = mapFiltersForm.querySelectorAll('input');
 
+  var mapPosition; // = window.map.map.getBoundingClientRect();
+  var pointerPosition = {
+    left: null,
+    top: null
+  };
+
+  var moveTo = function (evt, element) {
+    if ((evt.clientX - pointerPosition.left) < mapPosition.left) {
+      element.style.left = -element.clientWidth / 2 + 'px';
+    } else if ((evt.clientX + pointerPosition.left) > (mapPosition.left + mapPosition.width)) {
+      element.style.left = (mapPosition.width - element.clientWidth / 2) + 'px';
+    } else {
+      element.style.left = evt.clientX - mapPosition.left - pointerPosition.left + 'px';
+    }
+
+    if ((evt.clientY - pointerPosition.top) < (window.adData.Y_MIN - element.clientHeight)) {
+      element.style.top = (window.adData.Y_MIN - element.clientHeight) + 'px';
+    } else if ((evt.clientY - pointerPosition.top) > window.adData.Y_MAX - element.clientHeight) {
+      element.style.top = (window.adData.Y_MAX - element.clientHeight) + 'px';
+    } else {
+      element.style.top = ((evt.clientY - mapPosition.top) - pointerPosition.top) + 'px';
+    }
+
+    window.pin.setAddress();
+  };
+
+  var onMouseMove = function (moveEvt) {
+    moveEvt.preventDefault();
+    moveTo(moveEvt, window.pin.mainPin);
+  };
+
+  var onMouseUp = function (upEvt) {
+    upEvt.preventDefault();
+    document.removeEventListener('mousemove', onMouseMove);
+    document.removeEventListener('onMouseUp', onMouseUp);
+  };
+
 
   var onMainPinClick = function (evt) {
+    evt.preventDefault();
+
+    // Активация страницы
     if (evt.button === 0 || evt.key === 'Enter') {
       if (window.map.map.classList.contains('map--faded')) { // если по пину кликают на уже активированной странице, класса 'map--faded' нет
         window.map.map.classList.remove('map--faded');
@@ -43,6 +83,16 @@ window.pageActivation = (function () {
         window.pin.setAddress();
       }
     }
+
+    // Обработка перетаскивания главной метки
+    mapPosition = window.map.map.getBoundingClientRect();
+    var draggableCoords = window.pin.mainPin.getBoundingClientRect();
+
+    pointerPosition.left = evt.clientX - draggableCoords.left;
+    pointerPosition.top = evt.clientY - draggableCoords.top;
+
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
   };
 
   window.pin.mainPin.addEventListener('mousedown', onMainPinClick);
