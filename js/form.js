@@ -156,6 +156,7 @@ window.form = (function () {
     timeOut: timeOut,
     roomsNumberSelect: roomsNumberSelect,
     capacitySelect: capacitySelect,
+    validateTitle: validateTitle,
     invalidFields: invalidFields
   };
 })();

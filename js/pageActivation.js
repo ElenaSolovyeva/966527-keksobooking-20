@@ -50,7 +50,6 @@ window.pageActivation = (function () {
 
   var onMainPinClick = function (evt) {
     evt.preventDefault();
-
     // Активация страницы
     if (evt.button === 0 || evt.key === 'Enter') {
       if (window.map.map.classList.contains('map--faded')) { // если по пину кликают на уже активированной странице, класса 'map--faded' нет
@@ -83,7 +82,6 @@ window.pageActivation = (function () {
         window.pin.setAddress();
       }
     }
-
     // Обработка перетаскивания главной метки
     mapPosition = window.map.map.getBoundingClientRect();
     var draggableCoords = window.pin.mainPin.getBoundingClientRect();

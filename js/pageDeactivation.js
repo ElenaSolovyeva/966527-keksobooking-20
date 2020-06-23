@@ -1,6 +1,7 @@
 'use strict';
 
 window.pageDeactivation = (function () {
+  var adFormReset = window.form.adForm.querySelector('.ad-form__reset');
 
   var disableForm = function (form, className) {
     var selects = form.querySelectorAll('select');
@@ -37,15 +38,24 @@ window.pageDeactivation = (function () {
     // удаляет обработчики при деактивации страницы
     window.pin.mainPin.removeEventListener('mousedown', window.pageActivation.MainPinClick);
     window.pin.mainPin.removeEventListener('keydown', window.pageActivation.onMainPinClick);
-    if (window.map.usersPinList.length > 0) {
-      window.pin.adPin.removeEventListener('mousedown', window.pin.onAdPinClick);
-      window.pin.adPin.removeEventListener('keydown', window.pin.onAdPinClick);
+
+    var userPinCount = window.map.usersPinList.length;
+    if (userPinCount > 0) {
+      for (var i = 0; i < userPinCount; i += 1) {
+        window.map.usersPinList[i].removeEventListener('mousedown', window.pin.onAdPinClick);
+        window.map.usersPinList[i].removeEventListener('keydown', window.pin.onAdPinClick);
+        window.map.usersPinList[i].remove();
+        window.form.adFormTitle.removeEventListener('blur', window.form.validateTitle);
+      }
     }
-    if (window.map.closeButton) { // card.js
+    if (window.map.closeButton) {
       window.map.closeButton.removeEventListener('mousedown', window.map.onCloseButtonClick);
       window.map.closeButton.removeEventListener('keydown', window.map.onCloseButtonClick);
     }
   };
+
+  adFormReset.addEventListener('mousedown', makePageInactive);
+  adFormReset.addEventListener('keydown', makePageInactive);
 
   return {makePageInactive: makePageInactive};
 })();
