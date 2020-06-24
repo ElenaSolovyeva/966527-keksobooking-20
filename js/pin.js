@@ -49,8 +49,8 @@ window.pin = (function () {
   var setMainPinCentral = function () {
     var mapWidth = map.getBoundingClientRect().width;
     var mapHeight = map.getBoundingClientRect().height;
-    var mainPinLeft = Math.round(mapWidth / 2 - MAIN_PIN_WIDTH / 2);
-    var mainPinTop = Math.round(mapHeight / 2 - MAIN_PIN_HEIGHT / 2);
+    var mainPinLeft = Math.round(mapWidth / 2 - MAIN_PIN_WIDTH / 2, 0);
+    var mainPinTop = Math.round(mapHeight / 2 - MAIN_PIN_HEIGHT / 2, 0);
     var mainPinPosition = 'left: ' + mainPinLeft + 'px;' + 'top: ' + mainPinTop + 'px';
     mainPin.setAttribute('style', mainPinPosition);
   };
