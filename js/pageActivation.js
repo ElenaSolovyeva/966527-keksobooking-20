@@ -73,7 +73,7 @@ window.pageActivation = (function () {
           mapFilterSelects[l].removeAttribute('disabled');
         }
 
-        if (document.querySelectorAll('.map__pin').length <= 1) {
+        if (document.querySelectorAll('.map__pin--users-pin').length === 0) {
           window.map.renderPins();
         }
         adFormAddress.setAttribute('readonly', true);

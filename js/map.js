@@ -41,12 +41,21 @@ window.map = (function () {
 
   var renderPins = function () {
     var fragment = document.createDocumentFragment();
-    for (var i = 0; i < window.adData.adList.length; i += 1) {
-      var adPin = window.pin.createAdPin(window.adData.adList[i]);
-      usersPinList.push(adPin);
-      fragment.appendChild(adPin);
-      adPin.addEventListener('mousedown', onAdPinClick);
-      adPin.addEventListener('keydown', onAdPinClick);
+    if (usersPinList.length === 0) {
+      for (var i = 0; i < window.adData.adList.length; i += 1) {
+        var adPin = window.pin.createAdPin(window.adData.adList[i]);
+        usersPinList.push(adPin);
+        fragment.appendChild(adPin);
+        adPin.addEventListener('mousedown', onAdPinClick);
+        adPin.addEventListener('keydown', onAdPinClick);
+      }
+    } else {
+      for (var j = 0; j < usersPinList.length; j += 1) {
+        adPin = usersPinList[j];
+        fragment.appendChild(adPin);
+        adPin.addEventListener('mousedown', onAdPinClick);
+        adPin.addEventListener('keydown', onAdPinClick);
+      }
     }
     mapPins.appendChild(fragment);
   };
@@ -54,6 +63,7 @@ window.map = (function () {
 
   return {
     map: map,
+    mapPins: mapPins,
     usersPinList: usersPinList,
     renderCard: renderCard,
     renderPins: renderPins

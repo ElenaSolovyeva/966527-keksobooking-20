@@ -1,6 +1,7 @@
 'use strict';
 
 window.pin = (function () {
+  var map = document.querySelector('.map');
   var mainPin = document.querySelector('.map__pin--main');
   var MAIN_PIN_WIDTH = mainPin.clientWidth;
   var MAIN_PIN_HEIGHT = mainPin.clientHeight;
@@ -21,6 +22,7 @@ window.pin = (function () {
     var newAdImg = newAdPin.querySelector('img');
     newAdImg.src = ad.author.avatar;
     newAdImg.alt = ad.offer.title;
+    newAdPin.classList.add('map__pin--users-pin');
     return newAdPin;
   };
 
@@ -44,10 +46,19 @@ window.pin = (function () {
     }
   };
 
+  var setMainPinCentral = function () {
+    var mapWidth = map.getBoundingClientRect().width;
+    var mapHeight = map.getBoundingClientRect().height;
+    var mainPinLeft = Math.round(mapWidth / 2 - MAIN_PIN_WIDTH / 2);
+    var mainPinTop = Math.round(mapHeight / 2 - MAIN_PIN_HEIGHT / 2);
+    var mainPinPosition = 'left: ' + mainPinLeft + 'px;' + 'top: ' + mainPinTop + 'px';
+    mainPin.setAttribute('style', mainPinPosition);
+  };
 
   return {
     mainPin: mainPin,
     createAdPin: createAdPin,
-    setAddress: setAddress
+    setAddress: setAddress,
+    setMainPinCentral: setMainPinCentral
   };
 })();
