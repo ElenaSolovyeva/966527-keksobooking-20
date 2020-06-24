@@ -67,6 +67,10 @@ window.adData = (function () {
 
   getAdsData(); // заполняет adList (список объявлений)
 
-  return {adList: adList};
+  return {
+    Y_MIN: Y_MIN,
+    Y_MAX: Y_MAX,
+    adList: adList
+  };
 
 })();

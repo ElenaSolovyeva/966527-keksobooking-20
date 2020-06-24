@@ -1,6 +1,6 @@
 'use strict';
 
-window.pageDeactivation.makePageInactive();
+// window.pageDeactivation.makePageInactive();
 
 // ***** РАЗБИВКА НА МОДУЛИ: *****
 
@@ -21,7 +21,7 @@ window.pageDeactivation.makePageInactive();
 //    timeOut: timeOut,
 //    roomsNumberSelect: roomsNumberSelect,
 //    capacitySelect: capacitySelect,
-//    invalidFields: invalidFields
+//    invalidFields: invalidFields,
 //  };
 
 // СОЗДАНИЕ ОБЪЯВЛЕНИЯ И СПИСКА ОБЪЯВЛЕНИЙ: adData.js
@@ -34,16 +34,21 @@ window.pageDeactivation.makePageInactive();
 //      return {
 //        mainPin: mainPin,
 //        createAdPin: createAdPin,
-//        setAddress: setAddress
+//        setAddress: setAddress,
+//        setMainPinCentral: setMainPinCentral
 //      };
 
 // ОТРИСОВКА КАРТОЧЕК И МЕТОК: map.js
 //     return {
 //       map: map,
 //       usersPinList: usersPinList,
+//       mapPins: mapPins,
 //       renderCard: renderCard,
 //       renderPins: renderPins
 //     };
+
+//  ОЧИСТКА ФОРМЫ:  formReset.js
+//      return {resetForm: resetForm};
 
 // АКТИВАЦИЯ СТРАНИЦЫ:  pageActivation.js
 //     var onMainPinClick = function (evt) {
@@ -51,7 +56,9 @@ window.pageDeactivation.makePageInactive();
 //     window.pin.mainPin.addEventListener('keydown', onMainPinClick);
 //     return {mapFiltersForm: mapFiltersForm};
 
+
 // ДЕАКТИВАЦИЯ СТРАНИЦЫ:  pageDeactivation.js
+//        var resetForm = function (form, className) {...}
 //      return { makePageInactive: makePageInactive };
 
 // ТОЧКА ВХОДА: main.js

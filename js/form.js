@@ -10,7 +10,6 @@ window.form = (function () {
   var MIN_PRICE_HOUSE = 5000;
   var MIN_PRICE_PALACE = 10000;
 
-  // to export:
   var adForm = document.querySelector('.ad-form');
   var adFormTypeSelect = adForm.querySelector('#type');
   var adFormTitle = adForm.querySelector('#title');
@@ -22,6 +21,7 @@ window.form = (function () {
   var capacitySelect = adForm.querySelector('#capacity');
   var invalidFields = [];
 
+  // ВАЛИДАЦИЯ
   // Валидация заголовка сообщения
   var getTitleValidationMessage = function () {
     var message;
@@ -156,6 +156,7 @@ window.form = (function () {
     timeOut: timeOut,
     roomsNumberSelect: roomsNumberSelect,
     capacitySelect: capacitySelect,
-    invalidFields: invalidFields
+    validateTitle: validateTitle,
+    invalidFields: invalidFields,
   };
 })();
