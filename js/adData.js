@@ -41,11 +41,7 @@ window.adData = (function () {
 
   xhr.open('GET', URL);
 
-  try {
-    xhr.send();
-  } catch (err) {
-    console.log(err.message);
-  }
+  xhr.send();
 
 
   return {adList: adList};
