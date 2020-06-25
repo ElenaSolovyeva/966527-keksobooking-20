@@ -1,19 +1,15 @@
 'use strict';
 
 window.adData = (function () {
-  // var AD_QUANTITY = 8;
-  // var X_MIN = 0;
-  var Y_MIN = 130;
-  var Y_MAX = 630;
-  // var BLOCK_WIDTH = 1200;
-  // var X_MAX = X_MIN + BLOCK_WIDTH;
+  var TIMEOUT = 10000;
+  var STATUS_OK = 200;
+  var URL = 'https://javascript.pages.academy/keksobooking/data';
   var xhr = new XMLHttpRequest();
   xhr.responseType = 'json';
-  xhr.timeout = 10000;
-  var url = 'https://javascript.pages.academy/keksobooking/data';
+  xhr.timeout = TIMEOUT;
   var adList = [];
 
-  var onSuccess = function (data) {
+  var onLoad = function (data) {
     for (var i = 0; i < data.length; i += 1) {
       adList.push(data[i]);
     }
@@ -21,33 +17,19 @@ window.adData = (function () {
   };
 
   var onError = function (message) {
-    console.error(message);
+    var errorBlock = document.createElement('p');
+    errorBlock.innerHTML = '<p style="color: red">' + message + '</p>';
+    errorBlock.style.width = '100%';
+    document.querySelector('.map__title').insertAdjacentHTML('beforeend', errorBlock.innerHTML);
   };
 
-  var onXhrLoad = function () {
-    var error;
-    switch (xhr.status) {
-      case 200:
-        onSuccess(xhr.response);
-        break;
-      case 400:
-        error = 'Неверный запрос';
-        break;
-      case 401:
-        error = 'Пользователь не авторизован';
-        break;
-      case 404:
-        error = 'Ничего не найдено';
-        break;
-      default:
-        error = 'Cтатус ответа: : ' + xhr.status + ' ' + xhr.statusText;
+  xhr.addEventListener('load', function () {
+    if (xhr.status === STATUS_OK) {
+      onLoad(xhr.response);
+    } else {
+      onError('Объявления других пользователей не найдены.   ' + 'Cтатус ответа: ' + xhr.status + ' ' + xhr.statusText);
     }
-    if (error) {
-      onError(error);
-    }
-  };
-
-  xhr.addEventListener('load', onXhrLoad);
+  });
 
   xhr.addEventListener('error', function () {
     onError('Произошла ошибка соединения');
@@ -57,12 +39,14 @@ window.adData = (function () {
     onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
   });
 
-  xhr.open('GET', url);
-  xhr.send();
-  return {
-    Y_MIN: Y_MIN,
-    Y_MAX: Y_MAX,
-    adList: adList
-  };
+  xhr.open('GET', URL);
 
+  try {
+    xhr.send();
+  } catch (err) {
+    console.log(err.message);
+  }
+
+
+  return {adList: adList};
 })();

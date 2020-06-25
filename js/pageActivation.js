@@ -1,6 +1,9 @@
 'use strict';
 
 window.pageActivation = (function () {
+  var Y_MIN = 130;
+  var Y_MAX = 630;
+
   var adForm = document.querySelector('.ad-form');
   var adFormInputs = adForm.querySelectorAll('input');
   var adFormSelects = adForm.querySelectorAll('select');
@@ -25,10 +28,10 @@ window.pageActivation = (function () {
       element.style.left = evt.clientX - mapPosition.left - pointerPosition.left + 'px';
     }
 
-    if ((evt.clientY - pointerPosition.top) < (window.adData.Y_MIN - element.clientHeight)) {
-      element.style.top = (window.adData.Y_MIN - element.clientHeight) + 'px';
-    } else if ((evt.clientY - pointerPosition.top) > window.adData.Y_MAX - element.clientHeight) {
-      element.style.top = (window.adData.Y_MAX - element.clientHeight) + 'px';
+    if ((evt.clientY - pointerPosition.top) < (Y_MIN - element.clientHeight)) {
+      element.style.top = (Y_MIN - element.clientHeight) + 'px';
+    } else if ((evt.clientY - pointerPosition.top) > Y_MAX - element.clientHeight) {
+      element.style.top = (Y_MAX - element.clientHeight) + 'px';
     } else {
       element.style.top = ((evt.clientY - mapPosition.top) - pointerPosition.top) + 'px';
     }
