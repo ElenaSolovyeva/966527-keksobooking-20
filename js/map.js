@@ -39,11 +39,29 @@ window.map = (function () {
     }
   };
 
-  var renderPins = function () {
+  // Обработчик для успешной загрузки данных
+  var onLoad = function (data) {
+    var adList = [];
+    for (var i = 0; i < data.length; i += 1) {
+      adList.push(data[i]);
+    }
+    return adList;
+  };
+
+  // Обработчик на случай ошибки загрузки данных
+  var onError = function (message) {
+    var errorBlock = document.createElement('p');
+    errorBlock.innerHTML = '<p style="color: red">' + message + '</p>';
+    errorBlock.style.width = '100%';
+    document.querySelector('.map__title').insertAdjacentHTML('beforeend', errorBlock.innerHTML);
+  };
+
+
+  var renderPins = function (list) {
     var fragment = document.createDocumentFragment();
     if (usersPinList.length === 0) {
-      for (var i = 0; i < window.adData.adList.length; i += 1) {
-        var adPin = window.pin.createAdPin(window.adData.adList[i]);
+      for (var i = 0; i < list.length; i += 1) {
+        var adPin = window.pin.createAdPin(list[i]);
         usersPinList.push(adPin);
         fragment.appendChild(adPin);
         adPin.addEventListener('mousedown', onAdPinClick);
