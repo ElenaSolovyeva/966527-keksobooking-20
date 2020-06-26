@@ -40,27 +40,16 @@ window.map = (function () {
   };
 
   var renderPins = function () {
-    var adDataList = window.adData.loadAdData();
-    console.log('typeof (adDataList) = ' + typeof (adDataList));
-    console.log('Array.isArray(adDataList) = ' + Array.isArray(adDataList));
-    console.log('adDataList.length = ' + adDataList.length);
-
-    var adDataCount = adDataList.length;
-
-
     var fragment = document.createDocumentFragment();
     if (usersPinList.length === 0) {
-      console.log('usersPinList = ' + usersPinList);
-      for (var i = 0; i < adDataCount; i += 1) {
-        var adPin = window.pin.createAdPin(adDataList[i]);
-        console.log('adPin: ' + adPin);
+      for (var i = 0; i < window.adData.adList.length; i += 1) {
+        var adPin = window.pin.createAdPin(window.adData.adList[i]);
         usersPinList.push(adPin);
         fragment.appendChild(adPin);
         adPin.addEventListener('mousedown', onAdPinClick);
         adPin.addEventListener('keydown', onAdPinClick);
       }
     } else {
-      console.log('usersPinList.length === ' + usersPinList.length);
       for (var j = 0; j < usersPinList.length; j += 1) {
         adPin = usersPinList[j];
         fragment.appendChild(adPin);
@@ -69,7 +58,6 @@ window.map = (function () {
       }
     }
     mapPins.appendChild(fragment);
-    console.log(usersPinList);
   };
 
 
