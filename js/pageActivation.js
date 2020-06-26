@@ -77,7 +77,7 @@ window.pageActivation = (function () {
         }
 
         if (document.querySelectorAll('.map__pin--users-pin').length === 0) {
-          window.map.renderPins(window.adData.adList);
+          window.map.renderPins();
         }
         adFormAddress.setAttribute('readonly', true);
         window.form.adFormPrice.placeholder = 1000; // при активации формы по умолчанию указывается цена за квартиру
