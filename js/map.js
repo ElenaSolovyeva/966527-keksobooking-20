@@ -8,7 +8,7 @@
 window.map = (function () {
   var map = document.querySelector('.map');
   var mapPins = document.querySelector('.map__pins');
-  var usersPinList = [];
+  var usersPinList = []; // ***
   var closeButton;
 
 
@@ -39,11 +39,13 @@ window.map = (function () {
     }
   };
 
-  var renderPins = function () {
+  var renderPins = function (onLoad, onError) {
     var fragment = document.createDocumentFragment();
+    var adList = window.adData.getAdData(onLoad, onError);
+    console.log(adList);
     if (usersPinList.length === 0) {
-      for (var i = 0; i < window.adData.adList.length; i += 1) {
-        var adPin = window.pin.createAdPin(window.adData.adList[i]);
+      for (var i = 0; i < adList.length; i += 1) {
+        var adPin = adList[i];
         usersPinList.push(adPin);
         fragment.appendChild(adPin);
         adPin.addEventListener('mousedown', onAdPinClick);

@@ -50,7 +50,24 @@ window.pageActivation = (function () {
     document.removeEventListener('onMouseUp', onMouseUp);
   };
 
+  // *** коллбэки для загрузки объявлений других пользователей
+  var onLoad = function (data) {
+    var adList = [];
+    for (var i = 0; i < data.length; i += 1) {
+      adList.push(data[i]);
+    }
+    console.log(adList);
+    return adList;
+  };
 
+  var onError = function (message) {
+    var errorBlock = document.createElement('p');
+    errorBlock.innerHTML = '<p style="color: red">' + message + '</p>';
+    errorBlock.style.width = '100%';
+    document.querySelector('.map__title').insertAdjacentHTML('beforeend', errorBlock.innerHTML);
+  };
+
+  // *** коллбэк клика по главному пину
   var onMainPinClick = function (evt) {
     evt.preventDefault();
     // Активация страницы
@@ -77,7 +94,7 @@ window.pageActivation = (function () {
         }
 
         if (document.querySelectorAll('.map__pin--users-pin').length === 0) {
-          window.map.renderPins();
+          window.map.renderPins(onLoad, onError); // ***
         }
         adFormAddress.setAttribute('readonly', true);
         window.form.adFormPrice.placeholder = 1000; // при активации формы по умолчанию указывается цена за квартиру
