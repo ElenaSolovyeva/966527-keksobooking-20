@@ -19,6 +19,7 @@ window.map = (function () {
   };
 
   var renderCard = function (ad) {
+    console.log(window.map.usersPinList[0]);
     var firstCardFragment = window.card.createAdCard(ad);
     var firstCard = firstCardFragment.querySelector('.map__card');
     var elementBefore = map.querySelector('.map__filters-container');
@@ -35,23 +36,24 @@ window.map = (function () {
       if (previousCard) {
         previousCard.remove();
       }
-      renderCard(window.adData.adList[pinIndex]);
+      console.log(usersPinList[0]);
+      renderCard(usersPinList[pinIndex]); // window.adData.adList
     }
   };
 
-  var renderPins = function () {
+  var renderPins = function (data) {
     var fragment = document.createDocumentFragment();
     if (usersPinList.length === 0) {
-      for (var i = 0; i < window.adData.adList.length; i += 1) {
-        var adPin = window.pin.createAdPin(window.adData.adList[i]);
+      data.forEach(function (element) {
+        var adPin = window.pin.createAdPin(element);
         usersPinList.push(adPin);
         fragment.appendChild(adPin);
         adPin.addEventListener('mousedown', onAdPinClick);
         adPin.addEventListener('keydown', onAdPinClick);
-      }
+      });
     } else {
       for (var j = 0; j < usersPinList.length; j += 1) {
-        adPin = usersPinList[j];
+        var adPin = usersPinList[j];
         fragment.appendChild(adPin);
         adPin.addEventListener('mousedown', onAdPinClick);
         adPin.addEventListener('keydown', onAdPinClick);

@@ -53,6 +53,24 @@ window.pageActivation = (function () {
 
   var onMainPinClick = function (evt) {
     evt.preventDefault();
+    // Загрузка объявлений других пользователей
+    var onLoad = function (data) {
+      window.map.adList = data;
+      console.log(window.map.usersPinList);
+      window.map.renderPins(data);
+    };
+
+    var onError = function (message) {
+      var errorBlock = document.createElement('p');
+      errorBlock.innerHTML = '<p style="color: red">' + message + '</p>';
+      errorBlock.style.width = '100%';
+      document.querySelector('.map__title').insertAdjacentHTML('beforeend', errorBlock.innerHTML);
+    };
+
+    if (document.querySelectorAll('.map__pin--users-pin').length === 0) {
+      window.adData.load(onLoad, onError);
+    }
+
     // Активация страницы
     if (evt.button === 0 || evt.key === 'Enter') {
       if (window.map.map.classList.contains('map--faded')) { // если по пину кликают на уже активированной странице, класса 'map--faded' нет
@@ -76,9 +94,6 @@ window.pageActivation = (function () {
           mapFilterSelects[l].removeAttribute('disabled');
         }
 
-        if (document.querySelectorAll('.map__pin--users-pin').length === 0) {
-          window.map.renderPins();
-        }
         adFormAddress.setAttribute('readonly', true);
         window.form.adFormPrice.placeholder = 1000; // при активации формы по умолчанию указывается цена за квартиру
         window.form.adFormPrice.value = 1000;
