@@ -10,7 +10,6 @@ window.map = (function () {
   var mapPins = document.querySelector('.map__pins');
   var usersPinList = [];
   var closeButton;
-  // var adList = [];
 
 
   var onCloseButtonClick = function (evt) {
@@ -30,33 +29,23 @@ window.map = (function () {
   };
 
   var onAdPinClick = function (evt) {
-    console.log('8) ВЫПОЛНЯЕТСЯ ФУНКЦИЯ-КОЛЛБЭК onAdPinClick');
     if (evt.button === 0 || evt.key === 'Enter') {
-      console.log('8А) СОСОТОЯНИЕ МАССИВА usersPinList');
-      console.log(usersPinList);
       var pinIndex = usersPinList.indexOf(evt.target.parentNode, 0);
       var previousCard = map.querySelector('.map__card');
       if (previousCard) {
         previousCard.remove();
       }
-      console.log('8Б) ВЫЗЫВАЕТСЯ ФУНКЦИЯ renderCard(usersPinList[pinIndex])');
-      console.log('8С) ЗНАЧЕНИЕ АРГУМЕНТА (usersPinList[pinIndex])');
-      console.log(usersPinList[pinIndex]);
-      renderCard(window.adData.adList[pinIndex]); // window.adData.adList
+      renderCard(window.adData.adList[pinIndex]);
     }
   };
 
   var renderPins = function (data) {
-    console.log('7) ВЫПОЛНЯЕТСЯ ФУНКЦИЯ renderPins = function (data) {}');
-    console.log('7А) СОСОТОЯНИЕ АРГУМЕНТА (data):');
-    console.log(data);
     var fragment = document.createDocumentFragment();
     if (usersPinList.length === 0) {
       data.forEach(function (element) {
         var adPin = window.pin.createAdPin(element);
         usersPinList.push(adPin);
         fragment.appendChild(adPin);
-        console.log('7Б) НА ПИНЫ НАВЕШИВАЕТСЯ ОБРАБОТЧИК С КОЛЛБЭКОМ onAdPinClick');
         adPin.addEventListener('mousedown', onAdPinClick);
         adPin.addEventListener('keydown', onAdPinClick);
       });
