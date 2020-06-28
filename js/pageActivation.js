@@ -55,7 +55,7 @@ window.pageActivation = (function () {
     evt.preventDefault();
     // Загрузка объявлений других пользователей
     var onLoad = function (data) {
-      window.adData.adList = data;
+      window.adData.adList = data.slice();
       window.map.renderPins(data);
     };
 
