@@ -52,11 +52,15 @@ window.pageActivation = (function () {
 
 
   var onMainPinClick = function (evt) {
+    console.log('0) СРАБАТЫВАЕТ ОБРАБОТЧИК onMainPinClick');
     evt.preventDefault();
     // Загрузка объявлений других пользователей
     var onLoad = function (data) {
+      console.log('5) ВЫПОЛНЯЕТСЯ ФУНКЦИЯ onLoad = function (data) {}');
       window.map.adList = data;
-      console.log(window.map.usersPinList);
+      console.log('5A) СОСТОЯНИЕ window.map.adList ПОСЛЕ ВЫЗОВА onLoad(xhr.response)');
+      console.log(window.map.adList);
+      console.log('6) ВЫЗОВ ФУНКЦИИ window.map.renderPins(data); ДО ЭТОГО МЕСТА ВСЁ ОК');
       window.map.renderPins(data);
     };
 
@@ -68,6 +72,7 @@ window.pageActivation = (function () {
     };
 
     if (document.querySelectorAll('.map__pin--users-pin').length === 0) {
+      console.log('1) ОРАБОТЧИК ВЫЗЫВАЕТ ФУНКЦИЮ window.adData.load(onLoad, onError);');
       window.adData.load(onLoad, onError);
     }
 
