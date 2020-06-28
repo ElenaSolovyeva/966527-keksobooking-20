@@ -136,13 +136,21 @@ window.card = (function () {
 
     popupFeaturesList.textcontent = '';
     renderFeaturesList(ad.offer.features, popupFeaturesList);
+
     if (!ad.offer.description.value) {
       popupDescription.textContent = ad.offer.description;
     } else {
       popupDescription.remove();
     }
-    renderPhotos(ad.offer.photos, popupPhoto, popupPhotos);
+
+    if (ad.offer.photos.length > 0) {
+      renderPhotos(ad.offer.photos, popupPhoto, popupPhotos);
+    } else {
+      popupPhotos.remove();
+    }
+
     avatarImg.src = ad.author.avatar;
+
     return newAdCard;
   };
 
