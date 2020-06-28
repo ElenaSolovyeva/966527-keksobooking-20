@@ -57,7 +57,7 @@ window.pageActivation = (function () {
     // Загрузка объявлений других пользователей
     var onLoad = function (data) {
       console.log('5) ВЫПОЛНЯЕТСЯ ФУНКЦИЯ onLoad = function (data) {}');
-      window.map.adList = data;
+      window.adData.adList = data;
       console.log('5A) СОСТОЯНИЕ window.map.adList ПОСЛЕ ВЫЗОВА onLoad(xhr.response)');
       console.log(window.map.adList);
       console.log('6) ВЫЗОВ ФУНКЦИИ window.map.renderPins(data); ДО ЭТОГО МЕСТА ВСЁ ОК');

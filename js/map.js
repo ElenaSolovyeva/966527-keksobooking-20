@@ -9,8 +9,8 @@ window.map = (function () {
   var map = document.querySelector('.map');
   var mapPins = document.querySelector('.map__pins');
   var usersPinList = [];
-  var
   var closeButton;
+  // var adList = [];
 
 
   var onCloseButtonClick = function (evt) {
@@ -42,7 +42,7 @@ window.map = (function () {
       console.log('8Б) ВЫЗЫВАЕТСЯ ФУНКЦИЯ renderCard(usersPinList[pinIndex])');
       console.log('8С) ЗНАЧЕНИЕ АРГУМЕНТА (usersPinList[pinIndex])');
       console.log(usersPinList[pinIndex]);
-      renderCard(usersPinList[pinIndex]); // window.adData.adList
+      renderCard(window.adData.adList[pinIndex]); // window.adData.adList
     }
   };
 

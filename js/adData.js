@@ -14,6 +14,8 @@ window.adData = (function () {
     post: 'POST'
   };
 
+  var adList = [];
+
 
   var createXhr = function (onLoad, onError, method, url) { // , data?
     console.log('3) ВЫПОЛНЯЕТСЯ ФУНКЦИЯ createXhr = function (onLoad, onError, method, url) {...}');
@@ -52,5 +54,8 @@ window.adData = (function () {
   };
 
 
-  return {load: load};
+  return {
+    load: load,
+    adList: adList
+  };
 })();
