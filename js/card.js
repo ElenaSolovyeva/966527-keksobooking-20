@@ -92,7 +92,7 @@ window.card = (function () {
       popupAddress.remove();
     }
 
-    if (!ad.offer.prise.value) {
+    if (!ad.offer.price.value) {
       popupPrice.textContent = ad.offer.prise;
       popupPrice.insertAdjacentHTML('beforeend', ' &#x20bd;<span>/ночь</span>');
     } else {
@@ -136,13 +136,21 @@ window.card = (function () {
 
     popupFeaturesList.textcontent = '';
     renderFeaturesList(ad.offer.features, popupFeaturesList);
+
     if (!ad.offer.description.value) {
       popupDescription.textContent = ad.offer.description;
     } else {
       popupDescription.remove();
     }
-    renderPhotos(ad.offer.photos, popupPhoto, popupPhotos);
+
+    if (ad.offer.photos.length > 0) {
+      renderPhotos(ad.offer.photos, popupPhoto, popupPhotos);
+    } else {
+      popupPhotos.remove();
+    }
+
     avatarImg.src = ad.author.avatar;
+
     return newAdCard;
   };
 

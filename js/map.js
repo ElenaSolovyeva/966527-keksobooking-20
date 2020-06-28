@@ -39,19 +39,19 @@ window.map = (function () {
     }
   };
 
-  var renderPins = function () {
+  var renderPins = function (data) {
     var fragment = document.createDocumentFragment();
     if (usersPinList.length === 0) {
-      for (var i = 0; i < window.adData.adList.length; i += 1) {
-        var adPin = window.pin.createAdPin(window.adData.adList[i]);
+      data.forEach(function (element) {
+        var adPin = window.pin.createAdPin(element);
         usersPinList.push(adPin);
         fragment.appendChild(adPin);
         adPin.addEventListener('mousedown', onAdPinClick);
         adPin.addEventListener('keydown', onAdPinClick);
-      }
+      });
     } else {
       for (var j = 0; j < usersPinList.length; j += 1) {
-        adPin = usersPinList[j];
+        var adPin = usersPinList[j];
         fragment.appendChild(adPin);
         adPin.addEventListener('mousedown', onAdPinClick);
         adPin.addEventListener('keydown', onAdPinClick);

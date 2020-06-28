@@ -1,6 +1,9 @@
 'use strict';
 
 window.pageActivation = (function () {
+  var Y_MIN = 130;
+  var Y_MAX = 630;
+
   var adForm = document.querySelector('.ad-form');
   var adFormInputs = adForm.querySelectorAll('input');
   var adFormSelects = adForm.querySelectorAll('select');
@@ -25,10 +28,10 @@ window.pageActivation = (function () {
       element.style.left = evt.clientX - mapPosition.left - pointerPosition.left + 'px';
     }
 
-    if ((evt.clientY - pointerPosition.top) < (window.adData.Y_MIN - element.clientHeight)) {
-      element.style.top = (window.adData.Y_MIN - element.clientHeight) + 'px';
-    } else if ((evt.clientY - pointerPosition.top) > window.adData.Y_MAX - element.clientHeight) {
-      element.style.top = (window.adData.Y_MAX - element.clientHeight) + 'px';
+    if ((evt.clientY - pointerPosition.top) < (Y_MIN - element.clientHeight)) {
+      element.style.top = (Y_MIN - element.clientHeight) + 'px';
+    } else if ((evt.clientY - pointerPosition.top) > Y_MAX - element.clientHeight) {
+      element.style.top = (Y_MAX - element.clientHeight) + 'px';
     } else {
       element.style.top = ((evt.clientY - mapPosition.top) - pointerPosition.top) + 'px';
     }
@@ -50,6 +53,23 @@ window.pageActivation = (function () {
 
   var onMainPinClick = function (evt) {
     evt.preventDefault();
+    // Загрузка объявлений других пользователей
+    var onLoad = function (data) {
+      window.adData.adList = data.slice();
+      window.map.renderPins(data);
+    };
+
+    var onError = function (message) {
+      var errorBlock = document.createElement('p');
+      errorBlock.innerHTML = '<p style="color: red">' + message + '</p>';
+      errorBlock.style.width = '100%';
+      document.querySelector('.map__title').insertAdjacentHTML('beforeend', errorBlock.innerHTML);
+    };
+
+    if (document.querySelectorAll('.map__pin--users-pin').length === 0) {
+      window.adData.load(onLoad, onError);
+    }
+
     // Активация страницы
     if (evt.button === 0 || evt.key === 'Enter') {
       if (window.map.map.classList.contains('map--faded')) { // если по пину кликают на уже активированной странице, класса 'map--faded' нет
@@ -73,9 +93,6 @@ window.pageActivation = (function () {
           mapFilterSelects[l].removeAttribute('disabled');
         }
 
-        if (document.querySelectorAll('.map__pin--users-pin').length === 0) {
-          window.map.renderPins();
-        }
         adFormAddress.setAttribute('readonly', true);
         window.form.adFormPrice.placeholder = 1000; // при активации формы по умолчанию указывается цена за квартиру
         window.form.adFormPrice.value = 1000;
