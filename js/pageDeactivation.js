@@ -45,6 +45,47 @@ window.pageDeactivation = (function () {
   adFormReset.addEventListener('mousedown', makePageInactive);
   adFormReset.addEventListener('keydown', makePageInactive);
 
+  // ОТПРАВКА ФОРМЫ
+  var onSubmitClick = function (submitEvt) {
+    submitEvt.preventDefault();
+
+    var data = new FormData(window.form.adForm);
+    console.log(window.form.adForm.title);
+    console.log(data);
+
+    var onUpload = function () {
+      var successTemplate = document.querySelector('#success').content;
+      var successBlock = successTemplate.cloneNode(true);
+      document.querySelector('main').insertAdjasentText('afterbegin', successBlock);
+
+      document.addEventListener('mousedown', function () {
+        successBlock.parentNode.removeChild(successBlock);
+      });
+
+      document.addEventListener('keydown', function (evt) {
+        if (evt.key === 'Escape') {
+          successBlock.parentNode.removeChild(successBlock);
+        }
+      });
+
+      makePageInactive();
+    };
+
+    var onError = function () {
+      var errorTemplate = document.querySelector('#error').content;
+      var errorBlock = errorTemplate.cloneNode(true);
+      document.querySelector('main').insertAdjacentHTML('afterbegin', errorBlock);
+      // Обвести красной рамкой невалидные объекты?
+    };
+
+    window.adData.save(onUpload, onError, data);
+  };
+  //
+  // var callback = function () {
+  //   console.log('callback');
+  // };
+
+  window.form.adForm.addEventListener('submit', onSubmitClick);
 
   return {makePageInactive: makePageInactive};
 })();
