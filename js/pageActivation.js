@@ -53,25 +53,24 @@ window.pageActivation = (function () {
 
   var onMainPinClick = function (evt) {
     evt.preventDefault();
-    // Загрузка объявлений других пользователей
-    var onLoad = function (data) {
-      window.adData.adList = data.slice();
-      window.map.renderPins(data);
-    };
-
-    var onError = function (message) {
-      var errorBlock = document.createElement('p');
-      errorBlock.innerHTML = '<p style="color: red">' + message + '</p>';
-      errorBlock.style.width = '100%';
-      document.querySelector('.map__title').insertAdjacentHTML('beforeend', errorBlock.innerHTML);
-    };
-
-    if (document.querySelectorAll('.map__pin--users-pin').length === 0) {
-      window.adData.load(onLoad, onError);
-    }
-
-    // Активация страницы
     if (evt.button === 0 || evt.key === 'Enter') {
+      // Загрузка объявлений других пользователей
+      var onLoad = function (data) {
+        window.adData.adList = data.slice();
+        window.map.renderPins(data);
+      };
+
+      var onError = function (message) {
+        var errorBlock = document.createElement('p');
+        errorBlock.innerHTML = '<p style="color: red">' + message + '</p>';
+        errorBlock.style.width = '100%';
+        document.querySelector('.map__title').insertAdjacentHTML('beforeend', errorBlock.innerHTML);
+      };
+
+      if (document.querySelectorAll('.map__pin--users-pin').length === 0) {
+        window.adData.load(onLoad, onError);
+      }
+      // Активация страницы
       if (window.map.map.classList.contains('map--faded')) { // если по пину кликают на уже активированной странице, класса 'map--faded' нет
         window.map.map.classList.remove('map--faded');
         if (window.form.adForm.classList.contains('ad-form--disabled')) {

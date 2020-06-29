@@ -45,6 +45,61 @@ window.pageDeactivation = (function () {
   adFormReset.addEventListener('mousedown', makePageInactive);
   adFormReset.addEventListener('keydown', makePageInactive);
 
+  // ОТПРАВКА ФОРМЫ
+  var onSubmitClick = function (submitEvt) {
+    submitEvt.preventDefault();
+
+    var data = new FormData(window.form.adForm);
+
+    var onUpload = function () {
+      var successTemplate = document.querySelector('#success').content;
+      var successBlock = successTemplate.cloneNode(true);
+      document.querySelector('main').insertAdjasentText('afterbegin', successBlock);
+
+      document.addEventListener('mousedown', function () {
+        successBlock.parentNode.removeChild(successBlock);
+      });
+
+      document.addEventListener('keydown', function (evt) {
+        if (evt.key === 'Escape') {
+          successBlock.parentNode.removeChild(successBlock);
+        }
+      });
+
+      makePageInactive();
+    };
+
+    var onError = function () {
+      var errorTemplate = document.querySelector('#error').content.querySelector('.error');
+      var errorBlock = errorTemplate.cloneNode(true);
+      document.querySelector('main').insertAdjacentElement('afterbegin', errorBlock);
+
+      var errorButton = errorBlock.querySelector('.error__button');
+
+      var onErrorbuttonClick = function (evt) {
+        if (evt.button === 0 || evt.key === 'Enter') {
+          document.querySelector('.error').remove();
+          errorButton.removeEventListener('click', onErrorbuttonClick);
+          errorButton.removeEventListener('keydown', onErrorbuttonClick);
+        }
+      };
+
+      var onErrorWindowClick = function (evt) {
+        if (evt.key === 'Escape') {
+          document.querySelector('.error').remove();
+          document.removeEventListener('keydown', onErrorWindowClick);
+        }
+      };
+
+      errorButton.addEventListener('click', onErrorbuttonClick);
+      errorButton.addEventListener('keydown', onErrorbuttonClick);
+      document.addEventListener('keydown', onErrorWindowClick);
+    };
+
+    window.adData.save(onUpload, onError, data);
+  };
+
+  window.form.adForm.addEventListener('submit', onSubmitClick);
 
   return {makePageInactive: makePageInactive};
 })();
