@@ -41,6 +41,7 @@ window.map = (function () {
 
   var renderPins = function (data) {
     var fragment = document.createDocumentFragment();
+
     if (usersPinList.length === 0) {
       data.forEach(function (element) {
         var adPin = window.pin.createAdPin(element);
@@ -60,13 +61,21 @@ window.map = (function () {
     mapPins.appendChild(fragment);
   };
 
+  var removePins = function () {
+    if (usersPinList.length > 0) {
+      usersPinList.forEach(function (pin) {
+        pin.remove();
+      });
+    }
+  };
 
   return {
     map: map,
     mapPins: mapPins,
     usersPinList: usersPinList,
     renderCard: renderCard,
-    renderPins: renderPins
+    renderPins: renderPins,
+    removePins: removePins
   };
 
 })();
