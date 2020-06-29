@@ -50,8 +50,6 @@ window.pageDeactivation = (function () {
     submitEvt.preventDefault();
 
     var data = new FormData(window.form.adForm);
-    console.log(window.form.adForm.title);
-    console.log(data);
 
     var onUpload = function () {
       var successTemplate = document.querySelector('#success').content;
@@ -72,18 +70,34 @@ window.pageDeactivation = (function () {
     };
 
     var onError = function () {
-      var errorTemplate = document.querySelector('#error').content;
+      var errorTemplate = document.querySelector('#error').content.querySelector('.error');
       var errorBlock = errorTemplate.cloneNode(true);
-      document.querySelector('main').insertAdjacentHTML('afterbegin', errorBlock);
-      // Обвести красной рамкой невалидные объекты?
+      document.querySelector('main').insertAdjacentElement('afterbegin', errorBlock);
+
+      var errorButton = errorBlock.querySelector('.error__button');
+
+      var onErrorbuttonClick = function (evt) {
+        if (evt.button === 0 || evt.key === 'Enter') {
+          document.querySelector('.error').remove();
+          errorButton.removeEventListener('click', onErrorbuttonClick);
+          errorButton.removeEventListener('keydown', onErrorbuttonClick);
+        }
+      };
+
+      var onErrorWindowClick = function (evt) {
+        if (evt.key === 'Escape') {
+          document.querySelector('.error').remove();
+          document.removeEventListener('keydown', onErrorWindowClick);
+        }
+      };
+
+      errorButton.addEventListener('click', onErrorbuttonClick);
+      errorButton.addEventListener('keydown', onErrorbuttonClick);
+      document.addEventListener('keydown', onErrorWindowClick);
     };
 
     window.adData.save(onUpload, onError, data);
   };
-  //
-  // var callback = function () {
-  //   console.log('callback');
-  // };
 
   window.form.adForm.addEventListener('submit', onSubmitClick);
 
