@@ -13,7 +13,7 @@ window.pageActivation = (function () {
   var mapFiltersForm = document.querySelector('.map__filters');
   var mapFilterSelects = mapFiltersForm.querySelectorAll('select');
   var mapFilterInputs = mapFiltersForm.querySelectorAll('input');
-  var typeFilter = mapFiltersForm.querySelector('#housing-type');
+  var typeFilter = mapFiltersForm.querySelector('#housing-type'); // !!!!!!!!!!!!
   var filteredAdList = [];
 
   var mapPosition; // = window.map.map.getBoundingClientRect();
@@ -130,6 +130,7 @@ window.pageActivation = (function () {
       window.map.removePins();
     }
 
+
     if (typeFilter.value !== 'any') {
       filteredAdList = window.adData.adList.filter(function (current) {
         return current.offer.type === typeFilter.value;
@@ -142,9 +143,13 @@ window.pageActivation = (function () {
     window.map.usersPinList.splice(0, window.map.usersPinList.length);
 
     window.map.renderPins(filteredAdList);
+
+    console.log(filteredAdList[0]);
+    window.filter.compareWithCurrentFilter(filteredAdList[0]); // filteredAdList.length - 1
   };
 
   typeFilter.addEventListener('input', onTypeFilterChange);
+
 
   return {mapFiltersForm: mapFiltersForm};
 })();
