@@ -4,11 +4,10 @@ window.filter = (function () {
 
   var compareWithCurrentFilter = function (ad) {
     var currentFilter = {
-      type: mapFiltersForm.querySelector('#housing-type').value,
-      price: mapFiltersForm.querySelector('#housing-price').value,
-      rooms: mapFiltersForm.querySelector('#housing-rooms').value,
-      guestsFilter: mapFiltersForm.querySelector('#housing-guests').value,
-
+      type: mapFiltersForm.querySelector('#housing-type'),
+      price: mapFiltersForm.querySelector('#housing-price'),
+      rooms: mapFiltersForm.querySelector('#housing-rooms'),
+      guestsFilter: mapFiltersForm.querySelector('#housing-guests'),
       // wifi: mapFiltersForm.querySelector('#filter-wifi'),
       // dishwasher: mapFiltersForm.querySelector('#filter-dishwasher').value,
       // parking: mapFiltersForm.querySelector('#filter-parking').value,
@@ -21,7 +20,7 @@ window.filter = (function () {
     var filterKeysCount = filterKeys.length;
 
     var compare = function (key) {
-      if (ad.offer[key] === currentFilter[key] || currentFilter[key] === 'any') {
+      if (String(ad.offer[key]) === String(currentFilter[key].value) || currentFilter[key].value === 'any') {
         return 1;
       } else {
         return 0;
@@ -36,7 +35,8 @@ window.filter = (function () {
         0
     );
 
-    console.log('filterKeysCount = ' + filterKeysCount + ', compilanseRanking = ' + compilanseRanking);
+    console.log(filterKeysCount === compilanseRanking);
+
     return filterKeysCount === compilanseRanking;
   };
 

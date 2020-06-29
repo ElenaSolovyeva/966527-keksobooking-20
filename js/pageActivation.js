@@ -13,10 +13,21 @@ window.pageActivation = (function () {
   var mapFiltersForm = document.querySelector('.map__filters');
   var mapFilterSelects = mapFiltersForm.querySelectorAll('select');
   var mapFilterInputs = mapFiltersForm.querySelectorAll('input');
-  var typeFilter = mapFiltersForm.querySelector('#housing-type'); // !!!!!!!!!!!!
-  var filteredAdList = [];
 
-  var mapPosition; // = window.map.map.getBoundingClientRect();
+  // Пока не соображу, как импортировать поля фильтра из модуля filter.js
+  var filterFields = [
+    mapFiltersForm.querySelector('#housing-type'),
+    mapFiltersForm.querySelector('#housing-price'),
+    mapFiltersForm.querySelector('#housing-rooms'),
+    mapFiltersForm.querySelector('#housing-guests')
+  ];
+  // var typeFilter = mapFiltersForm.querySelector('#housing-type');
+  // var price = mapFiltersForm.querySelector('#housing-price');
+  // var rooms = mapFiltersForm.querySelector('#housing-rooms');
+  // var guestsFilter = mapFiltersForm.querySelector('#housing-guests');
+
+
+  var mapPosition;
   var pointerPosition = {
     left: null,
     top: null
@@ -130,26 +141,24 @@ window.pageActivation = (function () {
       window.map.removePins();
     }
 
+    var filteredAdList = window.adData.adList.filter(function (current) {
+      return window.filter.compareWithCurrentFilter(current);
+    });
 
-    if (typeFilter.value !== 'any') {
-      filteredAdList = window.adData.adList.filter(function (current) {
-        return current.offer.type === typeFilter.value;
-      });
+    console.log(filteredAdList);
 
-
-    } else {
-      window.map.renderPins(window.adData.adList);
-    }
-    window.map.usersPinList.splice(0, window.map.usersPinList.length);
-
-    window.map.renderPins(filteredAdList);
-
-    console.log(filteredAdList[0]);
-    window.filter.compareWithCurrentFilter(filteredAdList[0]); // filteredAdList.length - 1
+    if (filteredAdList.length > 0) {
+      window.map.usersPinList.splice(0, window.map.usersPinList.length);
+      window.map.renderPins(filteredAdList);
+    } // else {
+    //   window.map.renderPins(window.adData.adList);
+    // }
   };
 
-  typeFilter.addEventListener('input', onTypeFilterChange);
-
+  // typeFilter.addEventListener('input', onTypeFilterChange);
+  filterFields.forEach(function (current) {
+    current.addEventListener('input', onTypeFilterChange);
+  });
 
   return {mapFiltersForm: mapFiltersForm};
 })();
