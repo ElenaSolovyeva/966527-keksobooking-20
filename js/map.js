@@ -40,8 +40,11 @@ window.map = (function () {
   };
 
   var renderPins = function (data) {
+    console.log(data);
     var fragment = document.createDocumentFragment();
+
     if (usersPinList.length === 0) {
+      console.log('usersPinList.length = ' + usersPinList.length);
       data.forEach(function (element) {
         var adPin = window.pin.createAdPin(element);
         usersPinList.push(adPin);
@@ -60,13 +63,21 @@ window.map = (function () {
     mapPins.appendChild(fragment);
   };
 
+  var removePins = function () {
+    if (usersPinList.length > 0) {
+      usersPinList.forEach(function (pin) {
+        pin.parentNode.remove();
+      });
+    }
+  };
 
   return {
     map: map,
     mapPins: mapPins,
     usersPinList: usersPinList,
     renderCard: renderCard,
-    renderPins: renderPins
+    renderPins: renderPins,
+    removePins: removePins
   };
 
 })();

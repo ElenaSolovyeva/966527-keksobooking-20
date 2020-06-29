@@ -3,6 +3,7 @@
 window.pageActivation = (function () {
   var Y_MIN = 130;
   var Y_MAX = 630;
+  var PINS_COUNT = 5;
 
   var adForm = document.querySelector('.ad-form');
   var adFormInputs = adForm.querySelectorAll('input');
@@ -12,6 +13,8 @@ window.pageActivation = (function () {
   var mapFiltersForm = document.querySelector('.map__filters');
   var mapFilterSelects = mapFiltersForm.querySelectorAll('select');
   var mapFilterInputs = mapFiltersForm.querySelectorAll('input');
+  var typeFilter = mapFiltersForm.querySelector('#housing-type');
+  var filteredAdList = [];
 
   var mapPosition; // = window.map.map.getBoundingClientRect();
   var pointerPosition = {
@@ -50,14 +53,18 @@ window.pageActivation = (function () {
     document.removeEventListener('onMouseUp', onMouseUp);
   };
 
-
   var onMainPinClick = function (evt) {
     evt.preventDefault();
     if (evt.button === 0 || evt.key === 'Enter') {
       // Загрузка объявлений других пользователей
       var onLoad = function (data) {
-        window.adData.adList = data.slice();
-        window.map.renderPins(data);
+        if (data.length > PINS_COUNT) {
+          window.adData.adList = data.slice(0, PINS_COUNT);
+        } else {
+          window.adData.adList = data.slice();
+        }
+
+        window.map.renderPins(window.adData.adList);
       };
 
       var onError = function (message) {
@@ -111,6 +118,34 @@ window.pageActivation = (function () {
 
   window.pin.mainPin.addEventListener('mousedown', onMainPinClick);
   window.pin.mainPin.addEventListener('keydown', onMainPinClick);
+
+  // ФИЛЬТРАЦИЯ ОТРИСОВАННЫХ ПИНОВ
+  var onTypeFilterChange = function () {
+    var openedCard = document.querySelector('.map__card');
+    if (openedCard) {
+      openedCard.remove();
+    }
+    console.log('window.map.usersPinList.length = ' + window.map.usersPinList.length);
+    if (window.map.usersPinList.length > 0) {
+      window.map.removePins();
+    }
+
+    if (typeFilter.value !== 'any') {
+      console.log(typeFilter.value);
+      filteredAdList = window.adData.adList.filter(function (current) {
+        console.log(current.offer.type);
+        return current.offer.type === typeFilter.value;
+      });
+
+      window.map.renderPins(filteredAdList);
+    } else {
+      window.map.renderPins(window.adData.adList);
+    }
+
+    // typeFilter.removeEventListener('change', onTypeFilterChange);
+  };
+
+  typeFilter.addEventListener('input', onTypeFilterChange);
 
   return {mapFiltersForm: mapFiltersForm};
 })();
