@@ -45,7 +45,7 @@ window.adData = (function () {
 
   var save = function (onUpload, onError, data) {
     var xhr = createXhr(onUpload, onError);
-    xhr.open(METHOD.post, URL.save);
+    xhr.open(METHOD.post, URL.send);
     console.log(data);
     xhr.send();
     createXhr(data);
