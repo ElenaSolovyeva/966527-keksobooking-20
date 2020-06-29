@@ -125,24 +125,23 @@ window.pageActivation = (function () {
     if (openedCard) {
       openedCard.remove();
     }
-    console.log('window.map.usersPinList.length = ' + window.map.usersPinList.length);
+
     if (window.map.usersPinList.length > 0) {
       window.map.removePins();
     }
 
     if (typeFilter.value !== 'any') {
-      console.log(typeFilter.value);
       filteredAdList = window.adData.adList.filter(function (current) {
-        console.log(current.offer.type);
         return current.offer.type === typeFilter.value;
       });
 
-      window.map.renderPins(filteredAdList);
+
     } else {
       window.map.renderPins(window.adData.adList);
     }
+    window.map.usersPinList.splice(0, window.map.usersPinList.length);
 
-    // typeFilter.removeEventListener('change', onTypeFilterChange);
+    window.map.renderPins(filteredAdList);
   };
 
   typeFilter.addEventListener('input', onTypeFilterChange);
