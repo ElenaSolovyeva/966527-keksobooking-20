@@ -66,7 +66,6 @@ window.card = (function () {
   };
 
   var createAdCard = function (ad) {
-    console.log(ad);
     var newAdCard = cardTemplate.cloneNode(true).content;
     var popupTitle = newAdCard.querySelector('.popup__title');
     var popupAddress = newAdCard.querySelector('.popup__text--address');

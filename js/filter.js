@@ -1,6 +1,7 @@
 'use strict';
 window.filter = (function () {
   var mapFiltersForm = document.querySelector('.map__filters');
+  var featuresSelects = mapFiltersForm.querySelector('#housing-features').querySelectorAll('input');
 
   var currentFilter = {
     type: mapFiltersForm.querySelector('#housing-type'),
@@ -11,7 +12,6 @@ window.filter = (function () {
   };
 
   var setFilteredFeatures = function () {
-    var featuresSelects = mapFiltersForm.querySelector('#housing-features').querySelectorAll('input');
     var features = [];
     featuresSelects.forEach(function (select) {
       if (select.checked === true) {
@@ -31,11 +31,6 @@ window.filter = (function () {
     } else {
       return (String(ad.offer[key]) === String(currentFilter[key].value) || currentFilter[key].value === 'any') ? 1 : 0;
     }
-    // if (String(ad.offer[key]) === String(currentFilter[key].value) || currentFilter[key].value === 'any') {
-    //   return 1;
-    // } else {
-    //   return 0;
-    // }
   };
 
   var compareWithCurrentFilter = function (ad) {
@@ -55,7 +50,9 @@ window.filter = (function () {
 
 
   return {
-    compareWithCurrentFilter: compareWithCurrentFilter
+    compareWithCurrentFilter: compareWithCurrentFilter,
+    featuresSelects: featuresSelects,
+    currentFilter: currentFilter
   };
 })();
 // wifi: mapFiltersForm.querySelector('#filter-wifi'),

@@ -149,5 +149,9 @@ window.pageActivation = (function () {
     current.addEventListener('input', onFilterChange);
   });
 
+  window.filter.featuresSelects.forEach(function (current) {
+    current.addEventListener('input', onFilterChange);
+  });
+
   return {mapFiltersForm: mapFiltersForm};
 })();
