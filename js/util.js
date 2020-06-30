@@ -1,6 +1,18 @@
 'use strict';
 
 window.util = (function () {
+  var compareArrays = function (first, second) {
+    if (first.length !== second.length) {
+      return false;
+    }
+
+    if (first.length === 0 && second.length === 0) {
+      return true;
+    }
+
+    return first.slice().sort().join('') === second.slice().sort().join('');
+  };
+
   var getRandomInteger = function (min, max) {
     var randomNumber = min + Math.random() * (max + 1 - min);
     return Math.floor(randomNumber);
@@ -29,6 +41,7 @@ window.util = (function () {
   return {
     getRandomInteger: getRandomInteger,
     shuffle: shuffle,
-    getRandomElements: getRandomElements
+    getRandomElements: getRandomElements,
+    compareArrays: compareArrays
   };
 })();
