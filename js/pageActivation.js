@@ -135,22 +135,16 @@ window.pageActivation = (function () {
     if (window.map.usersPinList.length > 0) {
       window.map.removePins();
     }
-
+    window.map.filteredAdList.splice();
     window.map.filteredAdList = window.adData.adList.filter(function (current) {
       return window.filter.compareWithCurrentFilter(current);
-    });
-
-    console.log(window.map.filteredAdList);
+    }).slice();
 
     if (window.map.filteredAdList.length > 0) {
-      // window.map.usersPinList.splice(0, window.map.usersPinList.length);
       window.map.renderPins(window.map.filteredAdList);
-    } // else {
-    //   window.map.renderPins(window.adData.adList);
-    // }
+    }
   };
 
-  // typeFilter.addEventListener('input', onTypeFilterChange);
   filterFields.forEach(function (current) {
     current.addEventListener('input', onFilterChange);
   });

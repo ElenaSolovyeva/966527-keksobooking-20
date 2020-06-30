@@ -9,7 +9,7 @@ window.map = (function () {
   var map = document.querySelector('.map');
   var mapPins = document.querySelector('.map__pins');
   var usersPinList = [];
-  var filteredList = [];
+  var filteredAdList = [];
   var closeButton;
 
 
@@ -31,14 +31,18 @@ window.map = (function () {
 
   var onAdPinClick = function (evt) {
     if (evt.button === 0 || evt.key === 'Enter') {
-      // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
       var pinIndex = usersPinList.indexOf(evt.target.parentNode, 0);
+
       var previousCard = map.querySelector('.map__card');
       if (previousCard) {
         previousCard.remove();
       }
-      // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-      renderCard(window.adData.adList[pinIndex]);
+
+      if (window.map.filteredAdList.length > 0) {
+        renderCard(window.map.filteredAdList[pinIndex]);
+      } else {
+        renderCard(window.adData.adList[pinIndex]);
+      }
     }
   };
 
@@ -72,7 +76,7 @@ window.map = (function () {
     map: map,
     mapPins: mapPins,
     usersPinList: usersPinList,
-    fikteredList: filteredList,
+    filteredAdList: filteredAdList,
     renderCard: renderCard,
     renderPins: renderPins,
     removePins: removePins
