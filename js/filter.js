@@ -2,19 +2,21 @@
 window.filter = (function () {
   var mapFiltersForm = document.querySelector('.map__filters');
 
+  var currentFilter = {
+    type: mapFiltersForm.querySelector('#housing-type'),
+    price: mapFiltersForm.querySelector('#housing-price'),
+    rooms: mapFiltersForm.querySelector('#housing-rooms'),
+    guestsFilter: mapFiltersForm.querySelector('#housing-guests'),
+    // wifi: mapFiltersForm.querySelector('#filter-wifi'),
+    // dishwasher: mapFiltersForm.querySelector('#filter-dishwasher').value,
+    // parking: mapFiltersForm.querySelector('#filter-parking').value,
+    // washer: mapFiltersForm.querySelector('#filter-washer').value,
+    // elevator: mapFiltersForm.querySelector('#filter-elevator').value,
+    // conditioner: mapFiltersForm.querySelector('#filter-conditioner').value,
+  };
+
   var compareWithCurrentFilter = function (ad) {
-    var currentFilter = {
-      type: mapFiltersForm.querySelector('#housing-type'),
-      price: mapFiltersForm.querySelector('#housing-price'),
-      rooms: mapFiltersForm.querySelector('#housing-rooms'),
-      guestsFilter: mapFiltersForm.querySelector('#housing-guests'),
-      // wifi: mapFiltersForm.querySelector('#filter-wifi'),
-      // dishwasher: mapFiltersForm.querySelector('#filter-dishwasher').value,
-      // parking: mapFiltersForm.querySelector('#filter-parking').value,
-      // washer: mapFiltersForm.querySelector('#filter-washer').value,
-      // elevator: mapFiltersForm.querySelector('#filter-elevator').value,
-      // conditioner: mapFiltersForm.querySelector('#filter-conditioner').value,
-    };
+
 
     var filterKeys = Object.keys(currentFilter);
     var filterKeysCount = filterKeys.length;

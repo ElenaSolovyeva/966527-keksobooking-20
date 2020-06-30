@@ -21,11 +21,6 @@ window.pageActivation = (function () {
     mapFiltersForm.querySelector('#housing-rooms'),
     mapFiltersForm.querySelector('#housing-guests')
   ];
-  // var typeFilter = mapFiltersForm.querySelector('#housing-type');
-  // var price = mapFiltersForm.querySelector('#housing-price');
-  // var rooms = mapFiltersForm.querySelector('#housing-rooms');
-  // var guestsFilter = mapFiltersForm.querySelector('#housing-guests');
-
 
   var mapPosition;
   var pointerPosition = {
@@ -131,7 +126,7 @@ window.pageActivation = (function () {
   window.pin.mainPin.addEventListener('keydown', onMainPinClick);
 
   // ФИЛЬТРАЦИЯ ОТРИСОВАННЫХ ПИНОВ
-  var onTypeFilterChange = function () {
+  var onFilterChange = function () {
     var openedCard = document.querySelector('.map__card');
     if (openedCard) {
       openedCard.remove();
@@ -141,15 +136,15 @@ window.pageActivation = (function () {
       window.map.removePins();
     }
 
-    var filteredAdList = window.adData.adList.filter(function (current) {
+    window.map.filteredAdList = window.adData.adList.filter(function (current) {
       return window.filter.compareWithCurrentFilter(current);
     });
 
-    console.log(filteredAdList);
+    console.log(window.map.filteredAdList);
 
-    if (filteredAdList.length > 0) {
-      window.map.usersPinList.splice(0, window.map.usersPinList.length);
-      window.map.renderPins(filteredAdList);
+    if (window.map.filteredAdList.length > 0) {
+      // window.map.usersPinList.splice(0, window.map.usersPinList.length);
+      window.map.renderPins(window.map.filteredAdList);
     } // else {
     //   window.map.renderPins(window.adData.adList);
     // }
@@ -157,7 +152,7 @@ window.pageActivation = (function () {
 
   // typeFilter.addEventListener('input', onTypeFilterChange);
   filterFields.forEach(function (current) {
-    current.addEventListener('input', onTypeFilterChange);
+    current.addEventListener('input', onFilterChange);
   });
 
   return {mapFiltersForm: mapFiltersForm};
