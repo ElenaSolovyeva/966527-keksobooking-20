@@ -3,7 +3,7 @@
 window.formReset = (function () {
 
 
-  var resetForm = function (form) {
+  var resetForm = function (form, defaultValue) {
     var card = document.querySelector('.map__card');
 
     var selects = form.querySelectorAll('select');
@@ -12,7 +12,7 @@ window.formReset = (function () {
     if (selects.length > 0) {
       for (var i = 0; i < selects.length; i += 1) {
         selects[i].disabled = true;
-        selects[i].value = '';
+        selects[i].value = defaultValue;
       }
     }
     if (inputs.length > 0) {
