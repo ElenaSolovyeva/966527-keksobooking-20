@@ -4,6 +4,7 @@ window.pageActivation = (function () {
   var Y_MIN = 130;
   var Y_MAX = 630;
   var PINS_COUNT = 5;
+  var DEBOUNCE_INTERVAL = 500; // ms
 
   var adForm = document.querySelector('.ad-form');
   var adFormInputs = adForm.querySelectorAll('input');
@@ -126,24 +127,47 @@ window.pageActivation = (function () {
   window.pin.mainPin.addEventListener('keydown', onMainPinClick);
 
   // ФИЛЬТРАЦИЯ ОТРИСОВАННЫХ ПИНОВ
+  var lastTimeout;
   var onFilterChange = function () {
-    var openedCard = document.querySelector('.map__card');
-    if (openedCard) {
-      openedCard.remove();
+    if (lastTimeout) {
+      window.clearTimeout(lastTimeout);
     }
-
-    if (window.map.usersPinList.length > 0) {
-      window.map.removePins();
-    }
-    window.map.filteredAdList.splice();
-    window.map.filteredAdList = window.adData.adList.filter(function (current) {
-      return window.filter.compareWithCurrentFilter(current);
-    }).slice();
-
-    if (window.map.filteredAdList.length > 0) {
-      window.map.renderPins(window.map.filteredAdList);
-    }
+    lastTimeout = window.setTimeout(function () {
+      var openedCard = document.querySelector('.map__card');
+      if (openedCard) {
+        openedCard.remove();
+      }
+      if (window.map.usersPinList.length > 0) {
+        window.map.removePins();
+      }
+      window.map.filteredAdList.splice();
+      window.map.filteredAdList = window.adData.adList.filter(function (current) {
+        return window.filter.compareWithCurrentFilter(current);
+      }).slice();
+      if (window.map.filteredAdList.length > 0) {
+        window.map.renderPins(window.map.filteredAdList);
+      }
+    },
+    DEBOUNCE_INTERVAL);
   };
+  // var onFilterChange = function () {
+  //   var openedCard = document.querySelector('.map__card');
+  //   if (openedCard) {
+  //     openedCard.remove();
+  //   }
+  //
+  //   if (window.map.usersPinList.length > 0) {
+  //     window.map.removePins();
+  //   }
+  //   window.map.filteredAdList.splice();
+  //   window.map.filteredAdList = window.adData.adList.filter(function (current) {
+  //     return window.filter.compareWithCurrentFilter(current);
+  //   }).slice();
+  //
+  //   if (window.map.filteredAdList.length > 0) {
+  //     window.map.renderPins(window.map.filteredAdList);
+  //   }
+  // };
 
   filterFields.forEach(function (current) {
     current.addEventListener('input', onFilterChange);

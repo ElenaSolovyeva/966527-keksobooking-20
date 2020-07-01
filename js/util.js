@@ -39,6 +39,23 @@ window.util = (function () {
     }
   };
 
+  // "Устранение дребезга"
+  // var DEBOUNCE_INTERVAL = 500; // ms
+  //
+  // var debounce = function (cb) {
+  //   var lastTimeout = null;
+  //
+  //   return function () {
+  //     var parameters = arguments;
+  //     if (lastTimeout) {
+  //       window.clearTimeout(lastTimeout);
+  //     }
+  //     lastTimeout = window.setTimeout(function () {
+  //       cb.apply(null, parameters);
+  //     }, DEBOUNCE_INTERVAL);
+  //   };
+  // };
+
   var getRandomInteger = function (min, max) {
     var randomNumber = min + Math.random() * (max + 1 - min);
     return Math.floor(randomNumber);
@@ -67,6 +84,7 @@ window.util = (function () {
   return {
     isSubset: isSubset,
     checkPriceRange: checkPriceRange,
+    // debounce: debounce,
     getRandomInteger: getRandomInteger,
     shuffle: shuffle,
     getRandomElements: getRandomElements
