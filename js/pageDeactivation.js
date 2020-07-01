@@ -42,6 +42,7 @@ window.pageDeactivation = (function () {
     if (window.map.closeButton) {
       window.map.closeButton.removeEventListener('mousedown', window.map.onCloseButtonClick);
       window.map.closeButton.removeEventListener('keydown', window.map.onCloseButtonClick);
+      document.removeEventListener('keydown', window.map.onEscapeClick);
     }
   };
 

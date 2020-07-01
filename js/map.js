@@ -19,6 +19,12 @@ window.map = (function () {
     }
   };
 
+  var onEscapeClick = function (evt) {
+    if (evt.key === 'Escape') {
+      map.querySelector('.map__card').remove();
+    }
+  };
+
   var renderCard = function (ad) {
     var firstCardFragment = window.card.createAdCard(ad);
     var firstCard = firstCardFragment.querySelector('.map__card');
@@ -27,6 +33,7 @@ window.map = (function () {
     closeButton = map.querySelector('.popup__close');
     closeButton.addEventListener('mousedown', onCloseButtonClick);
     closeButton.addEventListener('keydown', onCloseButtonClick);
+    document.addEventListener('keydown', onEscapeClick);
   };
 
   var onAdPinClick = function (evt) {
@@ -79,7 +86,9 @@ window.map = (function () {
     filteredAdList: filteredAdList,
     renderCard: renderCard,
     renderPins: renderPins,
-    removePins: removePins
+    removePins: removePins,
+    onCloseButtonClick: onCloseButtonClick,
+    onEscapeClick: onEscapeClick
   };
 
 })();
