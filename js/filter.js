@@ -1,5 +1,6 @@
 'use strict';
 window.filter = (function () {
+
   var mapFiltersForm = document.querySelector('.map__filters');
   var featuresSelects = mapFiltersForm.querySelector('#housing-features').querySelectorAll('input');
 
@@ -29,6 +30,8 @@ window.filter = (function () {
       }
       // Содержатся ли все выбранные в фильтре features в объявлении пользователя?
       return window.util.isSubset(currentFilter[key], ad.offer[key]) ? 1 : 0;
+    } else if (key === 'price') {
+      return (window.util.checkPriceRange(ad.offer[key], currentFilter[key].value)) ? 1 : 0;
     } else {
       return (String(ad.offer[key]) === String(currentFilter[key].value) || currentFilter[key].value === 'any') ? 1 : 0;
     }
@@ -45,7 +48,6 @@ window.filter = (function () {
         },
         0
     );
-    console.log(filterKeysCount === compilanseRanking);
     return filterKeysCount === compilanseRanking;
   };
 
@@ -56,9 +58,3 @@ window.filter = (function () {
     currentFilter: currentFilter
   };
 })();
-// wifi: mapFiltersForm.querySelector('#filter-wifi'),
-// dishwasher: mapFiltersForm.querySelector('#filter-dishwasher').value,
-// parking: mapFiltersForm.querySelector('#filter-parking').value,
-// washer: mapFiltersForm.querySelector('#filter-washer').value,
-// elevator: mapFiltersForm.querySelector('#filter-elevator').value,
-// conditioner: mapFiltersForm.querySelector('#filter-conditioner').value,
