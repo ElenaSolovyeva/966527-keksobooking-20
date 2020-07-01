@@ -176,7 +176,9 @@
               <input type="file" id="images" name="images" class="ad-form__input visually-hidden" accept="image/png, image/jpeg">
               <label for="images" class="ad-form__drop-zone">Загрузить<br>фото...</label>
             </div>
-            <div class="ad-form__photo"></div>
+            <div class="ad-form__photo">
+              <img src="" alt="Фотография объекта аренды" width="100%" height="auto">
+            </div>
           </div>
         </fieldset>
         <fieldset class="ad-form__element ad-form__element--submit">
@@ -249,6 +251,7 @@
   </template>
 
   <script src="js/util.js"></script>
+  <script src="js/photoLoader.js"></script>
   <script src="js/form.js"></script>
   <script src="js/adData.js"></script>
   <script src="js/card.js"></script>
