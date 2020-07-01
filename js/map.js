@@ -9,6 +9,7 @@ window.map = (function () {
   var map = document.querySelector('.map');
   var mapPins = document.querySelector('.map__pins');
   var usersPinList = [];
+  var filteredAdList = [];
   var closeButton;
 
 
@@ -31,33 +32,35 @@ window.map = (function () {
   var onAdPinClick = function (evt) {
     if (evt.button === 0 || evt.key === 'Enter') {
       var pinIndex = usersPinList.indexOf(evt.target.parentNode, 0);
+
       var previousCard = map.querySelector('.map__card');
       if (previousCard) {
         previousCard.remove();
       }
-      renderCard(window.adData.adList[pinIndex]);
+
+      if (window.map.filteredAdList.length > 0) {
+        renderCard(window.map.filteredAdList[pinIndex]);
+      } else {
+        renderCard(window.adData.adList[pinIndex]);
+      }
     }
   };
 
   var renderPins = function (data) {
     var fragment = document.createDocumentFragment();
 
-    if (usersPinList.length === 0) {
-      data.forEach(function (element) {
-        var adPin = window.pin.createAdPin(element);
-        usersPinList.push(adPin);
-        fragment.appendChild(adPin);
-        adPin.addEventListener('mousedown', onAdPinClick);
-        adPin.addEventListener('keydown', onAdPinClick);
-      });
-    } else {
-      for (var j = 0; j < usersPinList.length; j += 1) {
-        var adPin = usersPinList[j];
-        fragment.appendChild(adPin);
-        adPin.addEventListener('mousedown', onAdPinClick);
-        adPin.addEventListener('keydown', onAdPinClick);
-      }
+    if (usersPinList.length !== 0) {
+      usersPinList.splice(0, usersPinList.length);
     }
+
+    data.forEach(function (element) {
+      var adPin = window.pin.createAdPin(element);
+      usersPinList.push(adPin);
+      fragment.appendChild(adPin);
+      adPin.addEventListener('mousedown', onAdPinClick);
+      adPin.addEventListener('keydown', onAdPinClick);
+    });
+
     mapPins.appendChild(fragment);
   };
 
@@ -73,6 +76,7 @@ window.map = (function () {
     map: map,
     mapPins: mapPins,
     usersPinList: usersPinList,
+    filteredAdList: filteredAdList,
     renderCard: renderCard,
     renderPins: renderPins,
     removePins: removePins

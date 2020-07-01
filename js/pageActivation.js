@@ -4,6 +4,7 @@ window.pageActivation = (function () {
   var Y_MIN = 130;
   var Y_MAX = 630;
   var PINS_COUNT = 5;
+  var DEBOUNCE_INTERVAL = 500;
 
   var adForm = document.querySelector('.ad-form');
   var adFormInputs = adForm.querySelectorAll('input');
@@ -13,10 +14,15 @@ window.pageActivation = (function () {
   var mapFiltersForm = document.querySelector('.map__filters');
   var mapFilterSelects = mapFiltersForm.querySelectorAll('select');
   var mapFilterInputs = mapFiltersForm.querySelectorAll('input');
-  var typeFilter = mapFiltersForm.querySelector('#housing-type');
-  var filteredAdList = [];
 
-  var mapPosition; // = window.map.map.getBoundingClientRect();
+  var filterFields = [
+    mapFiltersForm.querySelector('#housing-type'),
+    mapFiltersForm.querySelector('#housing-price'),
+    mapFiltersForm.querySelector('#housing-rooms'),
+    mapFiltersForm.querySelector('#housing-guests')
+  ];
+
+  var mapPosition;
   var pointerPosition = {
     left: null,
     top: null
@@ -120,31 +126,37 @@ window.pageActivation = (function () {
   window.pin.mainPin.addEventListener('keydown', onMainPinClick);
 
   // ФИЛЬТРАЦИЯ ОТРИСОВАННЫХ ПИНОВ
-  var onTypeFilterChange = function () {
-    var openedCard = document.querySelector('.map__card');
-    if (openedCard) {
-      openedCard.remove();
+  var lastTimeout;
+  var onFilterChange = function () {
+    if (lastTimeout) {
+      window.clearTimeout(lastTimeout);
     }
-
-    if (window.map.usersPinList.length > 0) {
-      window.map.removePins();
-    }
-
-    if (typeFilter.value !== 'any') {
-      filteredAdList = window.adData.adList.filter(function (current) {
-        return current.offer.type === typeFilter.value;
-      });
-
-
-    } else {
-      window.map.renderPins(window.adData.adList);
-    }
-    window.map.usersPinList.splice(0, window.map.usersPinList.length);
-
-    window.map.renderPins(filteredAdList);
+    lastTimeout = window.setTimeout(function () {
+      var openedCard = document.querySelector('.map__card');
+      if (openedCard) {
+        openedCard.remove();
+      }
+      if (window.map.usersPinList.length > 0) {
+        window.map.removePins();
+      }
+      window.map.filteredAdList.splice();
+      window.map.filteredAdList = window.adData.adList.filter(function (current) {
+        return window.filter.compareWithCurrentFilter(current);
+      }).slice();
+      if (window.map.filteredAdList.length > 0) {
+        window.map.renderPins(window.map.filteredAdList);
+      }
+    },
+    DEBOUNCE_INTERVAL);
   };
 
-  typeFilter.addEventListener('input', onTypeFilterChange);
+  filterFields.forEach(function (current) {
+    current.addEventListener('input', onFilterChange);
+  });
+
+  window.filter.featuresSelects.forEach(function (current) {
+    current.addEventListener('input', onFilterChange);
+  });
 
   return {mapFiltersForm: mapFiltersForm};
 })();

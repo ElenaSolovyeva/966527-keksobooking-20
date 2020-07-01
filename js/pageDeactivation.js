@@ -21,8 +21,8 @@ window.pageDeactivation = (function () {
       }
     }
 
-    window.formReset.resetForm(window.form.adForm);
-    window.formReset.resetForm(window.pageActivation.mapFiltersForm);
+    window.formReset.resetForm(window.form.adForm, '');
+    window.formReset.resetForm(window.pageActivation.mapFiltersForm, 'any');
 
     var invalidFieldsCount = window.form.invalidFields.length;
     if (invalidFieldsCount > 0) {
@@ -30,6 +30,9 @@ window.pageDeactivation = (function () {
     }
     window.pin.setMainPinCentral();
     window.pin.setAddress();
+
+    // Очищает список отфильтрованных объявлений
+    window.map.filteredAdList.splice(0, window.map.filteredAdList.length);
 
     // удаляет обработчики при деактивации страницы
     window.pin.mainPin.removeEventListener('mousedown', window.pageActivation.MainPinClick);
