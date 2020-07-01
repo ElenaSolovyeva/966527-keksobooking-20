@@ -4,7 +4,6 @@ window.form = (function () {
 
   var LOWER_BOUND = 0;
   var UPPER_BOUND = 100;
-
   var MIN_PRICE_BUNGALO = 0;
   var MIN_PRICE_FLAT = 1000;
   var MIN_PRICE_HOUSE = 5000;
@@ -62,7 +61,7 @@ window.form = (function () {
         minPrice = MIN_PRICE_PALACE;
         break;
       default:
-      // потом сделаю throw exception ('Для данного типа жилья минимальная цена не установлена');
+        minPrice = null;
     }
     return minPrice;
   };

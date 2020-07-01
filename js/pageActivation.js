@@ -4,7 +4,7 @@ window.pageActivation = (function () {
   var Y_MIN = 130;
   var Y_MAX = 630;
   var PINS_COUNT = 5;
-  var DEBOUNCE_INTERVAL = 500; // ms
+  var DEBOUNCE_INTERVAL = 500;
 
   var adForm = document.querySelector('.ad-form');
   var adFormInputs = adForm.querySelectorAll('input');
@@ -15,7 +15,6 @@ window.pageActivation = (function () {
   var mapFilterSelects = mapFiltersForm.querySelectorAll('select');
   var mapFilterInputs = mapFiltersForm.querySelectorAll('input');
 
-  // Пока не соображу, как импортировать поля фильтра из модуля filter.js
   var filterFields = [
     mapFiltersForm.querySelector('#housing-type'),
     mapFiltersForm.querySelector('#housing-price'),
@@ -150,24 +149,6 @@ window.pageActivation = (function () {
     },
     DEBOUNCE_INTERVAL);
   };
-  // var onFilterChange = function () {
-  //   var openedCard = document.querySelector('.map__card');
-  //   if (openedCard) {
-  //     openedCard.remove();
-  //   }
-  //
-  //   if (window.map.usersPinList.length > 0) {
-  //     window.map.removePins();
-  //   }
-  //   window.map.filteredAdList.splice();
-  //   window.map.filteredAdList = window.adData.adList.filter(function (current) {
-  //     return window.filter.compareWithCurrentFilter(current);
-  //   }).slice();
-  //
-  //   if (window.map.filteredAdList.length > 0) {
-  //     window.map.renderPins(window.map.filteredAdList);
-  //   }
-  // };
 
   filterFields.forEach(function (current) {
     current.addEventListener('input', onFilterChange);
