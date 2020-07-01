@@ -93,7 +93,7 @@ window.card = (function () {
     }
 
     if (!ad.offer.price.value) {
-      popupPrice.textContent = ad.offer.prise;
+      popupPrice.textContent = ad.offer.price;
       popupPrice.insertAdjacentHTML('beforeend', ' &#x20bd;<span>/ночь</span>');
     } else {
       popupPrice.remove();

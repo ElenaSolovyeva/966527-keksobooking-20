@@ -23,16 +23,17 @@ window.util = (function () {
   // в диапазон цены, выбранной в фильтре?
   var checkPriceRange = function (adPrice, filterRange) {
     var LOW = 10000;
-    var HIGHT = 50000;
+    var HIGH = 50000;
     switch (filterRange) {
       case ('any'):
         return true;
       case ('low'):
-        return adPrice < LOW;
+        return (adPrice < LOW);
       case ('middle'):
-        return (adPrice >= LOW && adPrice <= HIGHT);
-      case ('hight'):
-        return adPrice > HIGHT;
+        return (adPrice >= LOW && adPrice <= HIGH);
+      case ('high'):
+
+        return (adPrice > HIGH);
       default:
         return false;
     }
