@@ -8,6 +8,8 @@ window.form = (function () {
   var MIN_PRICE_FLAT = 1000;
   var MIN_PRICE_HOUSE = 5000;
   var MIN_PRICE_PALACE = 10000;
+  var MIN_TITLE_LENGTH = 30;
+  var MAX_TITLE_LENGTH = 100;
 
   var adForm = document.querySelector('.ad-form');
   var adFormTypeSelect = adForm.querySelector('#type');
@@ -25,10 +27,10 @@ window.form = (function () {
   var getTitleValidationMessage = function () {
     var message;
     var titleLength = parseInt(adFormTitle.value.length, 10);
-    if (titleLength < 30) {
+    if (titleLength < MIN_TITLE_LENGTH) {
       message = 'В заголовке должно быть более 30-ти символов';
       invalidFields.push(adFormTitle);
-    } else if (titleLength > 100) {
+    } else if (titleLength > MAX_TITLE_LENGTH) {
       message = 'В заголовке должно быть менее 100 символов';
       invalidFields.push(adFormTitle);
     } else {
