@@ -27,7 +27,8 @@ window.filter = (function () {
       if (currentFilter[key].length === 0) {
         return 1;
       }
-      return window.util.compareArrays(ad.offer[key], currentFilter[key]) ? 1 : 0;
+      // Содержатся ли все выбранные в фильтре features в объявлении пользователя?
+      return window.util.isSubset(currentFilter[key], ad.offer[key]) ? 1 : 0;
     } else {
       return (String(ad.offer[key]) === String(currentFilter[key].value) || currentFilter[key].value === 'any') ? 1 : 0;
     }

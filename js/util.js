@@ -1,16 +1,26 @@
 'use strict';
 
 window.util = (function () {
-  var compareArrays = function (first, second) {
-    if (first.length !== second.length) {
+  // Является ли first подмножеством second?
+  var isSubset = function (first, second) {
+    if (first.length > second.length) {
       return false;
     }
 
-    if (first.length === 0 && second.length === 0) {
+    if (first.length === 0) {
       return true;
     }
 
-    return first.slice().sort().join('') === second.slice().sort().join('');
+    var subset = first.slice().sort();
+    var set = second.slice().sort();
+
+    for (var i = 0; i < subset.length; i += 1) {
+      if (set.indexOf(subset[i]) < 0) {
+        return false;
+      }
+    }
+
+    return true;
   };
 
   var getRandomInteger = function (min, max) {
@@ -42,6 +52,6 @@ window.util = (function () {
     getRandomInteger: getRandomInteger,
     shuffle: shuffle,
     getRandomElements: getRandomElements,
-    compareArrays: compareArrays
+    isSubset: isSubset
   };
 })();
